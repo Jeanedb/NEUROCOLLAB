@@ -3,127 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NeuroFrontier Forum</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+  <title>Forum Index</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto&display=swap"
+    rel="stylesheet"
+  />
+  <script
+    src="https://kit.fontawesome.com/a076d05399.js"
+    crossorigin="anonymous"
+    defer
+  ></script>
   <style>
-    /* Body & Background */
+    /* --- Reset & base --- */
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
-      background: #0a0f23 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23335599" stroke-opacity="0.1" stroke-width="2"/></svg>') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #d0d8ff;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    /* Header */
-    header {
-      text-align: center;
+      background: #0e0f1a;
+      color: #eee;
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 2rem 1rem;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      color: #6f93ff;
-      text-shadow:
-        0 0 5px #7b9eff,
-        0 0 10px #7b9eff,
-        0 0 20px #7b9eff;
-      user-select: none;
-      margin-bottom: 2rem;
     }
-    /* Main container */
     main {
-      max-width: 64rem;
-      margin: 0 auto 4rem;
-      padding: 0 1rem;
+      width: 100%;
+      max-width: 900px;
     }
-    /* Topic and Subcategory containers */
-    section.topic, .subcategory {
-      background: rgba(13, 24, 60, 0.85);
-      border-radius: 1rem;
-      padding: 1.5rem 2rem;
-      margin-bottom: 1.75rem;
-      border: 2px solid transparent;
+
+    /* --- Header --- */
+    header {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 3.2rem;
+      color: #2ff9ff;
+      text-align: center;
+      text-shadow:
+        0 0 10px #2ff9ff,
+        0 0 20px #2ff9ff,
+        0 0 30px #00fff7,
+        0 0 40px #00fff7,
+        0 0 50px #00fff7,
+        0 0 60px #00fff7;
+      margin-bottom: 3rem;
+      user-select: none;
+    }
+
+    /* --- Topic container --- */
+    .topic {
+      border-radius: 12px;
+      background: #111223;
+      margin-bottom: 1.6rem;
       box-shadow:
-        0 0 15px 1px rgba(111, 147, 255, 0.3),
-        inset 0 0 6px rgba(111, 147, 255, 0.15);
-      transition: border 0.3s ease;
+        0 0 10px #00fff7aa,
+        inset 0 0 15px #00fff7aa;
+      overflow: hidden;
     }
-    section.topic:hover, .subcategory:hover {
-      border: 2px solid #5c81ff;
-    }
-    /* Headers for topic and subcategory */
-    .topic-header, .subcategory-header {
+
+    /* --- Topic header --- */
+    .topic-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      user-select: none;
-    }
-    .topic-header h3, .subcategory-header h4 {
-      margin: 0;
+      padding: 1.3rem 1.6rem;
       font-weight: 700;
-      color: #a3baff;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, #008b8b, #00ffff);
+      color: #000;
+      user-select: none;
+      transition: background 0.3s ease;
     }
-    .topic-header h3 {
-      font-size: 1.75rem;
+    .topic-header:hover {
+      background: linear-gradient(90deg, #00ffff, #008b8b);
     }
-    .subcategory-header h4 {
-      font-size: 1.25rem;
-    }
-    /* Dropdown arrow icon */
+
+    /* --- Dropdown icon --- */
     .dropdown-icon {
       transition: transform 0.3s ease;
-      color: #82a1ff;
-      font-size: 1.25rem;
-      user-select: none;
+      color: #004d4d;
     }
     .dropdown-icon.open {
       transform: rotate(180deg);
+      color: #00ffff;
     }
-    /* Hidden content */
+
+    /* --- Subcategories container --- */
+    .subcategories {
+      background: #181b33;
+      padding-left: 1.6rem;
+      border-top: 1px solid #004d4d;
+    }
+
+    /* --- Subcategory --- */
+    .subcategory {
+      border-bottom: 1px solid #004d4d;
+    }
+    .subcategory:last-child {
+      border-bottom: none;
+    }
+
+    /* --- Subcategory header --- */
+    .subcategory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.9rem 1.6rem;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #00e6e6;
+      user-select: none;
+      background: #122233;
+      transition: background 0.3s ease;
+    }
+    .subcategory-header:hover {
+      background: #145466;
+    }
+
+    /* --- Messages inside subcategory --- */
+    .messages {
+      padding: 0.8rem 1.6rem 1.2rem 1.6rem;
+      font-size: 0.95rem;
+      color: #aaa;
+      background: #101224;
+      font-style: italic;
+    }
+
+    /* --- Hidden by default --- */
     .hidden {
       display: none;
     }
-    /* Messages container */
-    .messages {
-      margin-top: 1rem;
-      padding-left: 1rem;
-      border-left: 2px solid #5c81ff;
-      color: #b8c6ff;
-      font-size: 0.95rem;
-    }
-    /* Message bubble */
-    .message-bubble {
-      background: rgba(47, 62, 123, 0.8);
-      border-radius: 1rem;
-      padding: 1rem 1.25rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 8px rgba(47, 62, 123, 0.7);
-    }
-    .message-bubble:last-child {
-      margin-bottom: 0;
-    }
-    .message-bubble p {
-      margin: 0.25rem 0;
-    }
-    /* Utility classes */
-    .font-bold {
-      font-weight: 700;
-    }
-    .text-blue-300 {
-      color: #82a1ff;
-    }
-    .text-blue-400 {
-      color: #6f93ff;
-    }
   </style>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>NeuroFrontier Forum</header>
+  <header>Forum Index</header>
+
   <main>
-    <!-- Multiple Broad Topics -->
+    <!-- Topic: Medicine -->
     <section class="topic">
       <div class="topic-header" onclick="toggleDropdown(this)">
         <h3>Medicine</h3>
@@ -136,35 +156,22 @@
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <div class="message-bubble">
-              <p><span class="font-bold text-blue-300">Dr. Lopez:</span> Has anyone tried the new fMRI deep learning technique?</p>
-            </div>
-            <div class="message-bubble">
-              <p><span class="font-bold text-blue-300">Dr. Kim:</span> Yes, it’s promising but needs more data.</p>
-            </div>
+            <p>Discuss brain-behavior relationships.</p>
           </div>
         </section>
         <section class="subcategory">
           <div class="subcategory-header" onclick="toggleDropdown(this)">
-            <h4>Pharmacology</h4>
+            <h4>Cardiology</h4>
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Discuss new drug trials and side effects.</p>
-          </div>
-        </section>
-        <section class="subcategory">
-          <div class="subcategory-header" onclick="toggleDropdown(this)">
-            <h4>Medical Ethics</h4>
-            <i class="fas fa-chevron-down dropdown-icon"></i>
-          </div>
-          <div class="hidden messages">
-            <p>Debate on emerging bioethical issues in medicine.</p>
+            <p>Heart health and treatments discussion.</p>
           </div>
         </section>
       </div>
     </section>
 
+    <!-- Topic: Technology -->
     <section class="topic">
       <div class="topic-header" onclick="toggleDropdown(this)">
         <h3>Technology</h3>
@@ -173,11 +180,11 @@
       <div class="hidden subcategories">
         <section class="subcategory">
           <div class="subcategory-header" onclick="toggleDropdown(this)">
-            <h4>AI & Machine Learning</h4>
+            <h4>Artificial Intelligence</h4>
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Discuss the latest in AI developments and applications.</p>
+            <p>AI advancements and ethics.</p>
           </div>
         </section>
         <section class="subcategory">
@@ -186,12 +193,13 @@
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Share insights on threat detection and cyber defense.</p>
+            <p>Protecting digital assets.</p>
           </div>
         </section>
       </div>
     </section>
 
+    <!-- Topic: Law -->
     <section class="topic">
       <div class="topic-header" onclick="toggleDropdown(this)">
         <h3>Law</h3>
@@ -204,7 +212,7 @@
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Discuss case law and legal strategies.</p>
+            <p>Criminal cases and justice system.</p>
           </div>
         </section>
         <section class="subcategory">
@@ -213,12 +221,13 @@
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Talk about recent legislation and advocacy efforts.</p>
+            <p>Human rights discussions.</p>
           </div>
         </section>
       </div>
     </section>
 
+    <!-- Topic: Psychology -->
     <section class="topic">
       <div class="topic-header" onclick="toggleDropdown(this)">
         <h3>Psychology</h3>
@@ -227,27 +236,28 @@
       <div class="hidden subcategories">
         <section class="subcategory">
           <div class="subcategory-header" onclick="toggleDropdown(this)">
-            <h4>Clinical Psychology</h4>
+            <h4>Developmental Psychology</h4>
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Share clinical research and therapy methods.</p>
+            <p>Human growth and behavior over the lifespan.</p>
           </div>
         </section>
         <section class="subcategory">
           <div class="subcategory-header" onclick="toggleDropdown(this)">
-            <h4>Behavioral Neuroscience</h4>
+            <h4>Clinical Psychology</h4>
             <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
           <div class="hidden messages">
-            <p>Discuss brain-behavior relationships.</p>
+            <p>Mental health and therapy topics.</p>
           </div>
         </section>
       </div>
     </section>
 
+    <!-- Topic: Military & Security -->
     <section class="topic">
-      <div class="topic-header" onclick="toggleDropdown(this)"> 
+      <div class="topic-header" onclick="toggleDropdown(this)">
         <h3>Military & Security</h3>
         <i class="fas fa-chevron-down dropdown-icon"></i>
       </div>
@@ -272,7 +282,6 @@
         </section>
       </div>
     </section>
-
   </main>
 
   <script>
