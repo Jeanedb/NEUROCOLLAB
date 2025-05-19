@@ -1,36 +1,65 @@
-<!-- Join the Network Section -->
-<section class="relative py-24 bg-black bg-opacity-50 backdrop-blur-md">
-    <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="title-font text-4xl md:text-5xl font-bold mb-6 text-white glow-text">
-                Ready to Join the Network?
-            </h2>
-            <p class="text-lg text-gray-300 mb-10 leading-relaxed">
-                Become part of a dynamic community of forward-thinkers, innovators, and researchers. Expand your reach, share your insights, and collaborate across disciplines.
-            </p>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the Network</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #f1f5f9;
+    }
 
-        <div class="max-w-2xl mx-auto bg-gray-900 bg-opacity-60 p-8 rounded-xl gradient-border glow-box">
-            <form class="space-y-6">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-blue-400">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="Jane Doe" class="mt-1 w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+    .glow-box {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
 
-                <div>
-                    <label for="email" class="block text-sm font-medium text-blue-400">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" class="mt-1 w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+    input, textarea {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+    }
 
-                <div>
-                    <label for="field" class="block text-sm font-medium text-blue-400">Field of Interest</label>
-                    <input type="text" id="field" name="field" placeholder="Neuroscience, AI, Bioethics..." class="mt-1 w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+    input:focus, textarea:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 2px #3b82f6;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center px-4">
 
-                <button type="submit" class="w-full py-3 px-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition glow-box">
-                    Request to Join
-                </button>
-            </form>
-        </div>
-    </div>
-</section>
+  <div class="max-w-2xl w-full bg-slate-800 bg-opacity-60 p-8 rounded-2xl shadow-lg glow-box">
+    <h1 class="text-3xl font-bold text-center mb-6">Join the Network</h1>
+    
+    <form action="#" method="POST" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm font-medium mb-1">Full Name</label>
+        <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded-md" required />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
+        <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded-md" required />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium mb-1">Tell us why you want to join</label>
+        <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 rounded-md" required></textarea>
+      </div>
+
+      <div class="flex justify-center">
+        <button type="submit" class="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:opacity-90 transition glow-box">
+          Submit Application
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <p class="mt-6 text-sm text-gray-400">
+    <a href="index.html" class="underline hover:text-blue-400">← Back to Home</a>
+  </p>
+
+</body>
+</html>
