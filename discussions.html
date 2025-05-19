@@ -3,278 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Discussions - Your Network</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <title>NEURO COLLAB | Discussions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
   <style>
-    /* Base styles similar to index page */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0f172a; /* dark navy */
-      color: #cbd5e1; /* light gray */
+      font-family: 'Roboto', sans-serif;
+      background-color: #0a0a15;
+      color: #e0e0e0;
     }
 
-    /* HEADER styles from your index page */
-    header {
-      background-color: #1e293b; /* darker slate */
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 2px solid #2563eb; /* bright blue border */
-    }
-    header .logo {
-      color: #38bdf8; /* bright blue */
-      font-weight: 700;
-      font-size: 1.5rem;
-      text-decoration: none;
-    }
-    nav a {
-      color: #94a3b8; /* muted gray */
-      text-decoration: none;
-      margin-left: 1.8rem;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    nav a:hover, nav a.active {
-      color: #38bdf8;
+    .title-font {
+      font-family: 'Orbitron', sans-serif;
     }
 
-    main {
-      max-width: 900px;
-      margin: 3rem auto 4rem;
-      padding: 0 1.5rem;
+    .glow-text {
+      text-shadow: 0 0 8px rgba(0, 132, 255, 0.8);
     }
 
-    h1 {
-      font-weight: 700;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #38bdf8;
-      text-align: center;
+    .glow-box {
+      box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
     }
 
-    /* Topics grid matching index style */
-    .topics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
+    .brain-bg {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><path d="M400,100 C300,50 200,100 150,200 C100,300 150,400 200,450 C250,500 300,450 350,400 C400,350 450,400 500,450 C550,500 600,450 650,400 C700,350 650,300 600,250 C550,200 500,150 400,100 Z" fill="none" stroke="%230084ff" stroke-width="2" stroke-opacity="0.3"/></svg>');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
     }
 
-    .topic-card {
-      background-color: #1e293b;
-      border: 2px solid #2563eb;
-      border-radius: 0.75rem;
-      padding: 1.5rem 1rem;
-      text-align: center;
-      color: #94a3b8;
+    .gradient-border {
+      position: relative;
+      border-radius: 0.5rem;
+    }
+
+    .gradient-border::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #00f2ff, #0055ff, #8400ff);
+      border-radius: 0.6rem;
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    .topic-header {
       cursor: pointer;
-      transition: all 0.3s ease;
       user-select: none;
-      font-weight: 600;
-    }
-    .topic-card:hover {
-      background-color: #2563eb;
-      border-color: #3b82f6;
-      color: white;
-      box-shadow: 0 0 8px #3b82f6;
-    }
-    .topic-card i {
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
-      display: block;
-      color: inherit;
     }
 
-    /* Subcategories section */
-    .subcategories {
-      margin-top: 3rem;
-      background-color: #1e293b;
-      border: 2px solid #2563eb;
-      border-radius: 0.75rem;
-      padding: 1.5rem 2rem;
-      color: #cbd5e1;
-    }
-    .subcategories h2 {
-      color: #3b82f6;
-      font-weight: 700;
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-    .subcategories ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .subcategories li {
-      padding: 0.6rem 0;
-      border-bottom: 1px solid #334155;
-      cursor: pointer;
-      transition: color 0.2s;
-      font-weight: 500;
-    }
-    .subcategories li:hover {
-      color: #60a5fa;
+    .dropdown-icon {
+      transition: transform 0.3s ease;
     }
 
-    /* Responsive tweaks */
-    @media (max-width: 480px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav a {
-        margin-left: 0;
-        margin-right: 1rem;
-        margin-top: 0.5rem;
-      }
-      main {
-        margin: 2rem 1rem 3rem;
-      }
+    .dropdown-icon.open {
+      transform: rotate(180deg);
     }
   </style>
 </head>
-<body>
-  <!-- Header copied from your index page -->
-  <header>
-    <a href="index.html" class="logo">YourNetwork</a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="explore-projects.html">Explore Projects</a>
-      <a href="join-network.html">Join Network</a>
-      <a href="discussions.html" class="active">Discussions</a>
-    </nav>
-  </header>
+<body class="min-h-screen relative">
+  <div class="brain-bg"></div>
 
-  <main>
-    <h1>Discussions</h1>
+  <!-- Header/Navigation -->
+  <header
+    class="bg-black bg-opacity-80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-800"
+  >
+    <div
+      class="container mx-auto px-4 py-3 flex justify-between items-center"
+    >
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-brain text-3xl text-blue-400"></i>
+        <h1
+          class="title-font text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
+        >
+          NEURO COLLAB
+        </h1>
+      </div>
 
-    <div class="topics" id="topics">
-      <div class="topic-card" data-topic="medicine">
-        <i class="fas fa-stethoscope"></i>
-        Medicine
-      </div>
-      <div class="topic-card" data-topic="technology">
-        <i class="fas fa-microchip"></i>
-        Technology
-      </div>
-      <div class="topic-card" data-topic="physics">
-        <i class="fas fa-atom"></i>
-        Physics
-      </div>
-      <div class="topic-card" data-topic="environment">
-        <i class="fas fa-leaf"></i>
-        Environment
-      </div>
-      <div class="topic-card" data-topic="psychology">
-        <i class="fas fa-brain"></i>
-        Psychology
-      </div>
-      <div class="topic-card" data-topic="space">
-        <i class="fas fa-rocket"></i>
-        Space Exploration
-      </div>
-      <div class="topic-card" data-topic="history">
-        <i class="fas fa-landmark"></i>
-        History
-      </div>
-      <div class="topic-card" data-topic="literature">
-        <i class="fas fa-book-open"></i>
-        Literature
+      <nav class="hidden md:flex space-x-8">
+        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
+          >Home</a
+        >
+        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
+          >Projects</a
+        >
+        <a
+          href="#"
+          class="text-blue-300 font-medium border-b-2 border-blue-400 pb-1"
+          >Discussions</a
+        >
+        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
+          >Funding</a
+        >
+        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
+          >Network</a
+        >
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <button
+          class="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:opacity-90 transition"
+        >
+          Sign In
+        </button>
+        <button class="md:hidden text-gray-400 hover:text-white">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
       </div>
     </div>
+  </header>
 
-    <section class="subcategories" id="subcategories" style="display:none;">
-      <h2 id="subcat-title"></h2>
-      <ul id="subcat-list"></ul>
-    </section>
-  </main>
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-12 max-w-4xl">
+    <h2
+      class="title-font text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 glow-text"
+    >
+      Discussions
+    </h2>
 
-  <script>
-    const topics = {
-      medicine: [
-        'General Medicine',
-        'Pharmacology',
-        'Surgery',
-        'Pediatrics',
-        'Public Health'
-      ],
-      technology: [
-        'Artificial Intelligence',
-        'Cybersecurity',
-        'Software Development',
-        'Blockchain',
-        'Quantum Computing'
-      ],
-      physics: [
-        'Classical Mechanics',
-        'Thermodynamics',
-        'Quantum Mechanics',
-        'Relativity',
-        'Particle Physics'
-      ],
-      environment: [
-        'Climate Change',
-        'Conservation',
-        'Renewable Energy',
-        'Pollution',
-        'Sustainability'
-      ],
-      psychology: [
-        'Cognitive Psychology',
-        'Behavioral Psychology',
-        'Clinical Psychology',
-        'Developmental Psychology',
-        'Neuropsychology'
-      ],
-      space: [
-        'Astronomy',
-        'Space Missions',
-        'Astrobiology',
-        'Space Technology',
-        'Cosmology'
-      ],
-      history: [
-        'Ancient History',
-        'Medieval History',
-        'Modern History',
-        'Military History',
-        'Cultural History'
-      ],
-      literature: [
-        'Poetry',
-        'Novels',
-        'Drama',
-        'Literary Criticism',
-        'Contemporary Literature'
-      ]
-    };
+    <div class="space-y-6">
+      <!-- Topic 1 -->
+      <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 gradient-border glow-box">
+        <div
+          class="flex justify-between items-center topic-header"
+          onclick="toggleDropdown(this)"
+        >
+          <h3 class="text-xl font-bold text-blue-300">Neural Plasticity</h3>
+          <i class="fas fa-chevron-down dropdown-icon"></i>
+        </div>
+        <div class="mt-4 hidden text-gray-200 space-y-4">
+          <p>
+            Discussion about recent advances in neural plasticity research and
+            its applications in rehabilitation.
+          </p>
+          <div class="space-y-3 max-h-60 overflow-y-auto">
+            <div class="message-bubble p-4 bg-blue-950 bg-opacity-70 rounded-lg">
+              <div class="flex items-start space-x-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center"
+                >
+                  <span class="text-blue-300 font-bold">JD</span>
+                </div>
+                <div>
+                  <p class="font-bold text-blue-300">
+                    Dr. Jane Doe <span class="text-xs text-gray-500"
+                      >(Neuroscience)</span
+                    >
+                  </p>
+                  <p>
+                    Has anyone explored the implications of the recent study on
+                    neural plasticity in adult brains?
+                  </p>
+                </div>
+              </div>
+            </div>
 
-    const topicCards = document.querySelectorAll('.topic-card');
-    const subcatSection = document.getElementById('subcategories');
-    const subcatTitle = document.getElementById('subcat-title');
-    const subcatList = document.getElementById('subcat-list');
+            <div class="message-bubble p-4 bg-blue-950 bg-opacity-70 rounded-lg">
+              <div class="flex items-start space-x-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center"
+                >
+                  <span class="text-purple-300 font-bold">MS</span>
+                </div>
+                <div>
+                  <p class="font-bold text-purple-300">
+                    Mark Smith <span class="text-xs text-gray-500">(AI Researcher)</span>
+                  </p>
+                  <p>
+                    I'm working on an AI model that could simulate this. Would
+                    love to collaborate with neuroscientists to validate the
+                    approach.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    topicCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const topicKey = card.getAttribute('data-topic');
-        const subcats = topics[topicKey];
-
-        // Show subcategory section
-        subcatSection.style.display = 'block';
-        subcatTitle.textContent = card.textContent.trim();
-        subcatList.innerHTML = '';
-
-        subcats.forEach(subcat => {
-          const li = document.createElement('li');
-          li.textContent = subcat;
-          subcatList.appendChild(li);
-        });
-
-        // Scroll smoothly to subcategories
-        subcatSection.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  </script>
-</body>
-</html>
+      <!-- Topic 2 -->
+      <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 gradient-border glow-box">
+        <div
+          class="flex justify-between items-center topic-header"
+          onclick="toggleDropdown(this)"
+        >
+          <h3 class="text-xl font-bold text-purple-300">AI in Neuroscience</h3>
+          <i class="fas fa-chevron-down dropdown-icon"></i>
+        </div>
+        <div class="mt-4 hidden text-gray-200 space-y-4">
+          <p>Exploring AI tools that enhance data analysis in brain research.</p>
+          <div class="space-y-3 max-h-60 overflow-y-auto">
+            <div class="message-bubble p-4 bg-purple-950 bg-opacity-70 rounded-lg">
+              <div class="flex items-start space-x-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center"
+                >
+                  <span class="text-purple-300 font-bold">AR</span>
+                </div>
+                <div>
+                  <p class="font-bold text-purple-300">
+                    Amira Rahman <span class="text-xs text-gray-500">(PhD Candidate)</span>
+                 
