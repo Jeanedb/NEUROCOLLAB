@@ -1,220 +1,217 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NEURO COLLAB | Discussions</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <title>NeuroFrontier Forum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap');
-
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #0a0a15;
-      color: #e0e0e0;
-    }
-
-    .title-font {
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .glow-text {
-      text-shadow: 0 0 8px rgba(0, 132, 255, 0.8);
-    }
-
-    .glow-box {
-      box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
-    }
-
-    .brain-bg {
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><path d="M400,100 C300,50 200,100 150,200 C100,300 150,400 200,450 C250,500 300,450 350,400 C400,350 450,400 500,450 C550,500 600,450 650,400 C700,350 650,300 600,250 C550,200 500,150 400,100 Z" fill="none" stroke="%230084ff" stroke-width="2" stroke-opacity="0.3"/></svg>');
+      margin: 0;
+      background: #0a0f23 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23335599" stroke-opacity="0.1" stroke-width="2"/></svg>') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      opacity: 0.1;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #d0d8ff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-
-    .gradient-border {
-      position: relative;
-      border-radius: 0.5rem;
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #6f93ff;
+      text-shadow:
+        0 0 5px #7b9eff,
+        0 0 10px #7b9eff,
+        0 0 20px #7b9eff;
+      user-select: none;
     }
-
-    .gradient-border::before {
-      content: "";
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #00f2ff, #0055ff, #8400ff);
-      border-radius: 0.6rem;
-      z-index: -1;
-      opacity: 0.7;
+    main {
+      max-width: 64rem;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
     }
-
-    .topic-header {
+    section, .subcategory {
+      background: rgba(13, 24, 60, 0.85);
+      border-radius: 1rem;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.75rem;
+      border: 2px solid transparent;
+      box-shadow:
+        0 0 15px 1px rgba(111, 147, 255, 0.3),
+        inset 0 0 6px rgba(111, 147, 255, 0.15);
+      transition: border 0.3s ease;
+    }
+    section:hover, .subcategory:hover {
+      border: 2px solid #5c81ff;
+    }
+    .topic-header, .subcategory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       cursor: pointer;
       user-select: none;
     }
-
+    .topic-header h3, .subcategory-header h4 {
+      margin: 0;
+      font-weight: 700;
+      color: #a3baff;
+    }
+    .topic-header h3 {
+      font-size: 1.75rem;
+    }
+    .subcategory-header h4 {
+      font-size: 1.25rem;
+    }
     .dropdown-icon {
       transition: transform 0.3s ease;
+      color: #82a1ff;
+      font-size: 1.25rem;
+      user-select: none;
     }
-
     .dropdown-icon.open {
       transform: rotate(180deg);
     }
+    .hidden {
+      display: none;
+    }
+    .message-bubble {
+      background: rgba(47, 62, 123, 0.8);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(47, 62, 123, 0.7);
+    }
+    .message-bubble:last-child {
+      margin-bottom: 0;
+    }
+    .message-bubble p {
+      margin: 0.25rem 0;
+    }
+    .font-bold {
+      font-weight: 700;
+    }
+    .text-blue-300 {
+      color: #82a1ff;
+    }
+    .text-blue-400 {
+      color: #6f93ff;
+    }
+    .bg-blue-950 {
+      background-color: #0b1434;
+    }
+    .bg-opacity-70 {
+      background-color: rgba(11, 20, 52, 0.7);
+    }
+    .space-y-3 > * + * {
+      margin-top: 0.75rem;
+    }
+    .space-y-4 > * + * {
+      margin-top: 1rem;
+    }
+    .max-h-60 {
+      max-height: 15rem;
+      overflow-y: auto;
+    }
   </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body class="min-h-screen relative">
-  <div class="brain-bg"></div>
-
-  <!-- Header/Navigation -->
-  <header
-    class="bg-black bg-opacity-80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-800"
-  >
-    <div
-      class="container mx-auto px-4 py-3 flex justify-between items-center"
-    >
-      <div class="flex items-center space-x-2">
-        <i class="fas fa-brain text-3xl text-blue-400"></i>
-        <h1
-          class="title-font text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
-        >
-          NEURO COLLAB
-        </h1>
-      </div>
-
-      <nav class="hidden md:flex space-x-8">
-        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
-          >Home</a
-        >
-        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
-          >Projects</a
-        >
-        <a
-          href="#"
-          class="text-blue-300 font-medium border-b-2 border-blue-400 pb-1"
-          >Discussions</a
-        >
-        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
-          >Funding</a
-        >
-        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium"
-          >Network</a
-        >
-      </nav>
-
-      <div class="flex items-center space-x-4">
-        <button
-          class="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:opacity-90 transition"
-        >
-          Sign In
-        </button>
-        <button class="md:hidden text-gray-400 hover:text-white">
-          <i class="fas fa-bars text-xl"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-12 max-w-4xl">
-    <h2
-      class="title-font text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 glow-text"
-    >
-      Discussions
-    </h2>
-
+<body>
+  <header>NeuroFrontier Forum</header>
+  <main>
     <div class="space-y-6">
-      <!-- Topic 1 -->
+      <!-- Broad Topic -->
       <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 gradient-border glow-box">
-        <div
-          class="flex justify-between items-center topic-header"
-          onclick="toggleDropdown(this)"
-        >
-          <h3 class="text-xl font-bold text-blue-300">Neural Plasticity</h3>
+        <div class="topic-header" onclick="toggleDropdown(this)">
+          <h3>Medicine</h3>
           <i class="fas fa-chevron-down dropdown-icon"></i>
         </div>
-        <div class="mt-4 hidden text-gray-200 space-y-4">
-          <p>
-            Discussion about recent advances in neural plasticity research and
-            its applications in rehabilitation.
-          </p>
-          <div class="space-y-3 max-h-60 overflow-y-auto">
-            <div class="message-bubble p-4 bg-blue-950 bg-opacity-70 rounded-lg">
-              <div class="flex items-start space-x-3">
-                <div
-                  class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center"
-                >
-                  <span class="text-blue-300 font-bold">JD</span>
-                </div>
-                <div>
-                  <p class="font-bold text-blue-300">
-                    Dr. Jane Doe <span class="text-xs text-gray-500"
-                      >(Neuroscience)</span
-                    >
-                  </p>
-                  <p>
-                    Has anyone explored the implications of the recent study on
-                    neural plasticity in adult brains?
-                  </p>
-                </div>
+        <div class="hidden subcategories space-y-4 mt-4">
+          <!-- Subcategory -->
+          <div class="subcategory">
+            <div class="subcategory-header" onclick="toggleDropdown(this)">
+              <h4>Neuroscience</h4>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="hidden messages mt-3 space-y-3">
+              <p>Discussion on neural imaging and brain disorders.</p>
+              <div class="message-bubble">
+                <p><span class="font-bold text-blue-300">Dr. Lopez:</span> Has anyone tried the new fMRI deep learning technique?</p>
+              </div>
+              <div class="message-bubble">
+                <p><span class="font-bold text-blue-300">Dr. Kim:</span> Yes, it’s promising but needs more data.</p>
               </div>
             </div>
+          </div>
 
-            <div class="message-bubble p-4 bg-blue-950 bg-opacity-70 rounded-lg">
-              <div class="flex items-start space-x-3">
-                <div
-                  class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center"
-                >
-                  <span class="text-purple-300 font-bold">MS</span>
-                </div>
-                <div>
-                  <p class="font-bold text-purple-300">
-                    Mark Smith <span class="text-xs text-gray-500">(AI Researcher)</span>
-                  </p>
-                  <p>
-                    I'm working on an AI model that could simulate this. Would
-                    love to collaborate with neuroscientists to validate the
-                    approach.
-                  </p>
-                </div>
-              </div>
+          <div class="subcategory">
+            <div class="subcategory-header" onclick="toggleDropdown(this)">
+              <h4>Pharmacology</h4>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="hidden messages mt-3 space-y-3">
+              <p>Latest research on drug interactions and developments.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Topic 2 -->
       <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 gradient-border glow-box">
-        <div
-          class="flex justify-between items-center topic-header"
-          onclick="toggleDropdown(this)"
-        >
-          <h3 class="text-xl font-bold text-purple-300">AI in Neuroscience</h3>
+        <div class="topic-header" onclick="toggleDropdown(this)">
+          <h3>Technology</h3>
           <i class="fas fa-chevron-down dropdown-icon"></i>
         </div>
-        <div class="mt-4 hidden text-gray-200 space-y-4">
-          <p>Exploring AI tools that enhance data analysis in brain research.</p>
-          <div class="space-y-3 max-h-60 overflow-y-auto">
-            <div class="message-bubble p-4 bg-purple-950 bg-opacity-70 rounded-lg">
-              <div class="flex items-start space-x-3">
-                <div
-                  class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center"
-                >
-                  <span class="text-purple-300 font-bold">AR</span>
-                </div>
-                <div>
-                  <p class="font-bold text-purple-300">
-                    Amira Rahman <span class="text-xs text-gray-500">(PhD Candidate)</span>
-                 
+        <div class="hidden subcategories space-y-4 mt-4">
+          <div class="subcategory">
+            <div class="subcategory-header" onclick="toggleDropdown(this)">
+              <h4>AI & Machine Learning</h4>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+            <div class="hidden messages mt-3 space-y-3">
+              <p>Discussions on AI applications in healthcare and neuroscience.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // Toggle dropdown for any clickable header
+    function toggleDropdown(el) {
+      // Prevent nested clicks bubbling up from subcategory headers to parent
+      event.stopPropagation();
+
+      const content = el.nextElementSibling;
+      const icon = el.querySelector('.dropdown-icon');
+      if (!content) return;
+
+      if (content.classList.contains('hidden')) {
+        // Close sibling dropdowns at same level
+        const parent = el.parentElement.parentElement; // grandparent container
+
+        if (parent) {
+          Array.from(parent.children).forEach(sibling => {
+            if (sibling !== el.parentElement && sibling.querySelector) {
+              const sibContent = sibling.querySelector(':scope > div.hidden');
+              if (sibContent) {
+                sibContent.classList.add('hidden');
+                const sibIcon = sibling.querySelector('.dropdown-icon');
+                if (sibIcon) sibIcon.classList.remove('open');
+              }
+            }
+          });
+        }
+
+        content.classList.remove('hidden');
+        icon.classList.add('open');
+      } else {
+        content.classList.add('hidden');
+        icon.classList.remove('open');
+      }
+    }
+  </script>
+</body>
+</html>
