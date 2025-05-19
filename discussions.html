@@ -6,6 +6,7 @@
   <title>NeuroFrontier Forum</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <style>
+    /* Body & Background */
     body {
       margin: 0;
       background: #0a0f23 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23335599" stroke-opacity="0.1" stroke-width="2"/></svg>') no-repeat center center fixed;
@@ -15,6 +16,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    /* Header */
     header {
       text-align: center;
       padding: 2rem 1rem;
@@ -27,13 +29,16 @@
         0 0 10px #7b9eff,
         0 0 20px #7b9eff;
       user-select: none;
+      margin-bottom: 2rem;
     }
+    /* Main container */
     main {
       max-width: 64rem;
       margin: 0 auto 4rem;
       padding: 0 1rem;
     }
-    section, .subcategory {
+    /* Topic and Subcategory containers */
+    section.topic, .subcategory {
       background: rgba(13, 24, 60, 0.85);
       border-radius: 1rem;
       padding: 1.5rem 2rem;
@@ -44,9 +49,10 @@
         inset 0 0 6px rgba(111, 147, 255, 0.15);
       transition: border 0.3s ease;
     }
-    section:hover, .subcategory:hover {
+    section.topic:hover, .subcategory:hover {
       border: 2px solid #5c81ff;
     }
+    /* Headers for topic and subcategory */
     .topic-header, .subcategory-header {
       display: flex;
       justify-content: space-between;
@@ -65,6 +71,7 @@
     .subcategory-header h4 {
       font-size: 1.25rem;
     }
+    /* Dropdown arrow icon */
     .dropdown-icon {
       transition: transform 0.3s ease;
       color: #82a1ff;
@@ -74,9 +81,19 @@
     .dropdown-icon.open {
       transform: rotate(180deg);
     }
+    /* Hidden content */
     .hidden {
       display: none;
     }
+    /* Messages container */
+    .messages {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      border-left: 2px solid #5c81ff;
+      color: #b8c6ff;
+      font-size: 0.95rem;
+    }
+    /* Message bubble */
     .message-bubble {
       background: rgba(47, 62, 123, 0.8);
       border-radius: 1rem;
@@ -90,6 +107,7 @@
     .message-bubble p {
       margin: 0.25rem 0;
     }
+    /* Utility classes */
     .font-bold {
       font-weight: 700;
     }
@@ -99,116 +117,175 @@
     .text-blue-400 {
       color: #6f93ff;
     }
-    .bg-blue-950 {
-      background-color: #0b1434;
-    }
-    .bg-opacity-70 {
-      background-color: rgba(11, 20, 52, 0.7);
-    }
-    .space-y-3 > * + * {
-      margin-top: 0.75rem;
-    }
-    .space-y-4 > * + * {
-      margin-top: 1rem;
-    }
-    .max-h-60 {
-      max-height: 15rem;
-      overflow-y: auto;
-    }
   </style>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>NeuroFrontier Forum</header>
   <main>
-    <div class="space-y-6">
-      <!-- Broad Topic -->
-      <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 gradient-border glow-box">
-        <div class="topic-header" onclick="toggleDropdown(this)">
-          <h3>Medicine</h3>
-          <i class="fas fa-chevron-down dropdown-icon"></i>
-        </div>
-        <div class="hidden subcategories space-y-4 mt-4">
-          <!-- Subcategory -->
-          <div class="subcategory">
-            <div class="subcategory-header" onclick="toggleDropdown(this)">
-              <h4>Neuroscience</h4>
-              <i class="fas fa-chevron-down dropdown-icon"></i>
+    <!-- Multiple Broad Topics -->
+    <section class="topic">
+      <div class="topic-header" onclick="toggleDropdown(this)">
+        <h3>Medicine</h3>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </div>
+      <div class="hidden subcategories">
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Neuroscience</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <div class="message-bubble">
+              <p><span class="font-bold text-blue-300">Dr. Lopez:</span> Has anyone tried the new fMRI deep learning technique?</p>
             </div>
-            <div class="hidden messages mt-3 space-y-3">
-              <p>Discussion on neural imaging and brain disorders.</p>
-              <div class="message-bubble">
-                <p><span class="font-bold text-blue-300">Dr. Lopez:</span> Has anyone tried the new fMRI deep learning technique?</p>
-              </div>
-              <div class="message-bubble">
-                <p><span class="font-bold text-blue-300">Dr. Kim:</span> Yes, it’s promising but needs more data.</p>
-              </div>
+            <div class="message-bubble">
+              <p><span class="font-bold text-blue-300">Dr. Kim:</span> Yes, it’s promising but needs more data.</p>
             </div>
           </div>
+        </section>
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Pharmacology</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Discuss new drug trials and side effects.</p>
+          </div>
+        </section>
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Medical Ethics</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Debate on emerging bioethical issues in medicine.</p>
+          </div>
+        </section>
+      </div>
+    </section>
 
-          <div class="subcategory">
-            <div class="subcategory-header" onclick="toggleDropdown(this)">
-              <h4>Pharmacology</h4>
-              <i class="fas fa-chevron-down dropdown-icon"></i>
-            </div>
-            <div class="hidden messages mt-3 space-y-3">
-              <p>Latest research on drug interactions and developments.</p>
-            </div>
+    <section class="topic">
+      <div class="topic-header" onclick="toggleDropdown(this)">
+        <h3>Technology</h3>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </div>
+      <div class="hidden subcategories">
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>AI & Machine Learning</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
-        </div>
-      </section>
+          <div class="hidden messages">
+            <p>Discuss the latest in AI developments and applications.</p>
+          </div>
+        </section>
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Cybersecurity</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Share insights on threat detection and cyber defense.</p>
+          </div>
+        </section>
+      </div>
+    </section>
 
-      <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 gradient-border glow-box">
-        <div class="topic-header" onclick="toggleDropdown(this)">
-          <h3>Technology</h3>
-          <i class="fas fa-chevron-down dropdown-icon"></i>
-        </div>
-        <div class="hidden subcategories space-y-4 mt-4">
-          <div class="subcategory">
-            <div class="subcategory-header" onclick="toggleDropdown(this)">
-              <h4>AI & Machine Learning</h4>
-              <i class="fas fa-chevron-down dropdown-icon"></i>
-            </div>
-            <div class="hidden messages mt-3 space-y-3">
-              <p>Discussions on AI applications in healthcare and neuroscience.</p>
-            </div>
+    <section class="topic">
+      <div class="topic-header" onclick="toggleDropdown(this)">
+        <h3>Law</h3>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </div>
+      <div class="hidden subcategories">
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Criminal Law</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
           </div>
-        </div>
-      </section>
-    </div>
+          <div class="hidden messages">
+            <p>Discuss case law and legal strategies.</p>
+          </div>
+        </section>
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Civil Rights</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Talk about recent legislation and advocacy efforts.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="topic">
+      <div class="topic-header" onclick="toggleDropdown(this)">
+        <h3>Psychology</h3>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </div>
+      <div class="hidden subcategories">
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Clinical Psychology</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Share clinical research and therapy methods.</p>
+          </div>
+        </section>
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Behavioral Neuroscience</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Discuss brain-behavior relationships.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="topic">
+      <div class="topic-header" onclick="toggleDropdown(this)"> 
+        <h3>Military & Security</h3>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </div>
+      <div class="hidden subcategories">
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Military Law</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Discuss military legal affairs and policies.</p>
+          </div>
+        </section>
+        <section class="subcategory">
+          <div class="subcategory-header" onclick="toggleDropdown(this)">
+            <h4>Law Enforcement Tactics</h4>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="hidden messages">
+            <p>Best practices and training discussions.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
   </main>
 
   <script>
-    // Toggle dropdown for any clickable header
     function toggleDropdown(el) {
-      // Prevent nested clicks bubbling up from subcategory headers to parent
-      event.stopPropagation();
-
-      const content = el.nextElementSibling;
       const icon = el.querySelector('.dropdown-icon');
-      if (!content) return;
+      const container = el.nextElementSibling;
+      if (!container) return;
 
-      if (content.classList.contains('hidden')) {
-        // Close sibling dropdowns at same level
-        const parent = el.parentElement.parentElement; // grandparent container
-
-        if (parent) {
-          Array.from(parent.children).forEach(sibling => {
-            if (sibling !== el.parentElement && sibling.querySelector) {
-              const sibContent = sibling.querySelector(':scope > div.hidden');
-              if (sibContent) {
-                sibContent.classList.add('hidden');
-                const sibIcon = sibling.querySelector('.dropdown-icon');
-                if (sibIcon) sibIcon.classList.remove('open');
-              }
-            }
-          });
-        }
-
-        content.classList.remove('hidden');
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
         icon.classList.add('open');
       } else {
-        content.classList.add('hidden');
+        container.classList.add('hidden');
         icon.classList.remove('open');
       }
     }
