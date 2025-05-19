@@ -2,80 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Join the Network</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #0f172a, #1e293b);
-      color: #f1f5f9;
-    }
-
-    .glow-box {
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-    }
-
-    input, textarea {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      color: #f1f5f9;
-    }
-
-    input:focus, textarea:focus {
-      border-color: #3b82f6;
-      outline: none;
-      box-shadow: 0 0 0 2px #3b82f6;
-    }
-  </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-slate-100 flex flex-col">
 
-  <!-- 🔷 HEADER (copied from Index page) -->
+  <!-- Header (copied exactly from Index page) -->
   <header class="flex items-center justify-between p-6 bg-slate-900 bg-opacity-80 shadow-md">
-    <a href="index.html" class="text-2xl font-bold text-blue-400 tracking-wide hover:text-blue-500 transition">
-      <img src="logo.png" alt="Your Logo" class="h-10 inline-block align-middle mr-2">
+    <a href="index.html" class="text-2xl font-bold text-blue-400 tracking-wide hover:text-blue-500 transition flex items-center">
+      <img src="assets/logo.png" alt="Logo" class="h-10 w-auto mr-3" />
       Redline Network
     </a>
-    <nav>
-      <a href="index.html" class="text-slate-300 hover:text-white transition px-4">Home</a>
-      <a href="join.html" class="text-blue-500 font-semibold border-b-2 border-blue-500 px-4">Join</a>
+    <nav class="flex space-x-6">
+      <a href="index.html" class="text-slate-300 hover:text-white transition">Home</a>
+      <a href="join.html" class="text-blue-500 font-semibold border-b-2 border-blue-500">Join</a>
     </nav>
   </header>
 
-  <!-- 🔷 MAIN CONTENT -->
-  <main class="flex-grow flex items-center justify-center px-4 py-12">
-    <div class="max-w-2xl w-full bg-slate-800 bg-opacity-60 p-8 rounded-2xl shadow-lg glow-box">
-      <h1 class="text-3xl font-bold text-center mb-6">Join the Network</h1>
-
+  <!-- Main content -->
+  <main class="flex-grow flex items-center justify-center px-4 py-16">
+    <div class="max-w-xl w-full bg-slate-800 bg-opacity-70 rounded-2xl p-8 shadow-2xl">
+      <h1 class="text-3xl font-extrabold mb-6 text-center text-white">Join the Network</h1>
       <form action="#" method="POST" class="space-y-6">
         <div>
-          <label for="name" class="block text-sm font-medium mb-1">Full Name</label>
-          <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded-md" required />
+          <label for="name" class="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
+          <input id="name" name="name" type="text" required class="w-full rounded-lg px-4 py-2 bg-slate-700 border border-slate-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none text-white" />
         </div>
-
         <div>
-          <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
-          <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded-md" required />
+          <label for="email" class="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
+          <input id="email" name="email" type="email" required class="w-full rounded-lg px-4 py-2 bg-slate-700 border border-slate-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none text-white" />
         </div>
-
         <div>
-          <label for="message" class="block text-sm font-medium mb-1">Tell us why you want to join</label>
-          <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 rounded-md" required></textarea>
+          <label for="reason" class="block text-sm font-medium text-slate-300 mb-1">Why do you want to join?</label>
+          <textarea id="reason" name="reason" rows="4" required class="w-full rounded-lg px-4 py-2 bg-slate-700 border border-slate-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none text-white"></textarea>
         </div>
-
-        <div class="flex justify-center">
-          <button type="submit" class="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:opacity-90 transition glow-box">
+        <div class="text-center">
+          <button type="submit" class="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-3 rounded-full text-white font-semibold hover:opacity-90 transition">
             Submit Application
           </button>
         </div>
       </form>
     </div>
   </main>
-
-  <!-- 🔷 FOOTER (optional) -->
-  <footer class="text-center text-sm text-gray-500 py-6">
-    &copy; 2025 Redline Network. All rights reserved.
-  </footer>
 
 </body>
 </html>
