@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NEURO COLLAB | Discussions</title>
+  <title>NEURO COLLAB | Topics</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     rel="stylesheet"
@@ -47,29 +47,6 @@
       z-index: -1;
       opacity: 0.7;
     }
-    .message-bubble {
-      position: relative;
-      background: #1a1a2e;
-      border-radius: 1rem;
-      padding: 1rem;
-    }
-    .message-bubble:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 20%;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-top-color: #1a1a2e;
-      border-bottom: 0;
-      margin-left: -10px;
-      margin-bottom: -10px;
-    }
-    .tab-active {
-      border-bottom: 3px solid #0084ff;
-      color: #0084ff;
-    }
     header {
       background-color: rgba(0,0,0,0.8);
       backdrop-filter: blur(10px);
@@ -77,6 +54,10 @@
       position: sticky;
       top: 0;
       z-index: 50;
+    }
+    /* Dropdown arrow rotate */
+    .rotate-90 {
+      transform: rotate(90deg);
     }
   </style>
 </head>
@@ -91,7 +72,7 @@
       </div>
       <nav class="hidden md:flex space-x-8">
         <a href="#" class="text-gray-400 hover:text-blue-100 font-medium">Home</a>
-        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium tab-active">Discussions</a>
+        <a href="#" class="text-gray-400 hover:text-blue-100 font-medium tab-active">Topics</a>
         <a href="#" class="text-gray-400 hover:text-blue-100 font-medium">Projects</a>
         <a href="#" class="text-gray-400 hover:text-blue-100 font-medium">Funding</a>
         <a href="#" class="text-gray-400 hover:text-blue-100 font-medium">Network</a>
@@ -104,60 +85,146 @@
   </header>
 
   <main class="container mx-auto px-4 py-12 max-w-4xl">
-    <h2 class="title-font text-4xl font-bold mb-6 text-white glow-text">Live Discussion</h2>
+    <h2 class="title-font text-4xl font-bold mb-6 text-white glow-text">Explore Topics</h2>
+
     <div class="gradient-border p-1 rounded-xl mb-6">
-      <div class="bg-gray-900 bg-opacity-80 rounded-xl p-6 backdrop-blur-sm max-h-[480px] overflow-y-auto">
-        <!-- Active users count -->
-        <div class="flex justify-between items-center mb-6">
-          <span class="text-green-400 flex items-center">
-            <span class="w-3 h-3 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-            24 Active
-          </span>
-          <button class="px-3 py-1 bg-blue-600 rounded-full text-white text-sm hover:bg-blue-700 transition">Join Chat</button>
+      <div class="bg-gray-900 bg-opacity-80 rounded-xl p-6 backdrop-blur-sm max-h-[720px] overflow-y-auto">
+
+        <!-- Topics List -->
+        <div id="topics" class="space-y-4 text-gray-300">
+
+          <!-- Single Topic example -->
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              type="button"
+              class="w-full flex justify-between items-center px-5 py-3 font-semibold hover:bg-blue-900 hover:text-white transition focus:outline-none"
+              aria-expanded="false"
+              aria-controls="medicine-subtopics"
+              onclick="toggleDropdown('medicine-subtopics', this)"
+            >
+              Medicine
+              <i class="fas fa-chevron-right transition-transform"></i>
+            </button>
+            <div id="medicine-subtopics" class="hidden px-8 py-3 text-gray-400 space-y-1">
+              <a href="#" class="block hover:text-blue-400">Neuroscience</a>
+              <a href="#" class="block hover:text-blue-400">Cardiology</a>
+              <a href="#" class="block hover:text-blue-400">Oncology</a>
+              <a href="#" class="block hover:text-blue-400">Pediatrics</a>
+              <a href="#" class="block hover:text-blue-400">Psychiatry</a>
+            </div>
+          </div>
+
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              type="button"
+              class="w-full flex justify-between items-center px-5 py-3 font-semibold hover:bg-blue-900 hover:text-white transition focus:outline-none"
+              aria-expanded="false"
+              aria-controls="technology-subtopics"
+              onclick="toggleDropdown('technology-subtopics', this)"
+            >
+              Technology
+              <i class="fas fa-chevron-right transition-transform"></i>
+            </button>
+            <div id="technology-subtopics" class="hidden px-8 py-3 text-gray-400 space-y-1">
+              <a href="#" class="block hover:text-blue-400">Artificial Intelligence</a>
+              <a href="#" class="block hover:text-blue-400">Quantum Computing</a>
+              <a href="#" class="block hover:text-blue-400">Cybersecurity</a>
+              <a href="#" class="block hover:text-blue-400">Blockchain</a>
+              <a href="#" class="block hover:text-blue-400">Robotics</a>
+            </div>
+          </div>
+
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              type="button"
+              class="w-full flex justify-between items-center px-5 py-3 font-semibold hover:bg-blue-900 hover:text-white transition focus:outline-none"
+              aria-expanded="false"
+              aria-controls="psychology-subtopics"
+              onclick="toggleDropdown('psychology-subtopics', this)"
+            >
+              Psychology
+              <i class="fas fa-chevron-right transition-transform"></i>
+            </button>
+            <div id="psychology-subtopics" class="hidden px-8 py-3 text-gray-400 space-y-1">
+              <a href="#" class="block hover:text-blue-400">Cognitive Psychology</a>
+              <a href="#" class="block hover:text-blue-400">Behavioral Therapy</a>
+              <a href="#" class="block hover:text-blue-400">Developmental Psychology</a>
+              <a href="#" class="block hover:text-blue-400">Social Psychology</a>
+              <a href="#" class="block hover:text-blue-400">Neuropsychology</a>
+            </div>
+          </div>
+
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              type="button"
+              class="w-full flex justify-between items-center px-5 py-3 font-semibold hover:bg-blue-900 hover:text-white transition focus:outline-none"
+              aria-expanded="false"
+              aria-controls="environment-subtopics"
+              onclick="toggleDropdown('environment-subtopics', this)"
+            >
+              Environment
+              <i class="fas fa-chevron-right transition-transform"></i>
+            </button>
+            <div id="environment-subtopics" class="hidden px-8 py-3 text-gray-400 space-y-1">
+              <a href="#" class="block hover:text-blue-400">Climate Change</a>
+              <a href="#" class="block hover:text-blue-400">Sustainability</a>
+              <a href="#" class="block hover:text-blue-400">Conservation Biology</a>
+              <a href="#" class="block hover:text-blue-400">Renewable Energy</a>
+            </div>
+          </div>
+
+          <div class="border border-gray-700 rounded-lg">
+            <button
+              type="button"
+              class="w-full flex justify-between items-center px-5 py-3 font-semibold hover:bg-blue-900 hover:text-white transition focus:outline-none"
+              aria-expanded="false"
+              aria-controls="education-subtopics"
+              onclick="toggleDropdown('education-subtopics', this)"
+            >
+              Education
+              <i class="fas fa-chevron-right transition-transform"></i>
+            </button>
+            <div id="education-subtopics" class="hidden px-8 py-3 text-gray-400 space-y-1">
+              <a href="#" class="block hover:text-blue-400">E-learning</a>
+              <a href="#" class="block hover:text-blue-400">Special Education</a>
+              <a href="#" class="block hover:text-blue-400">Curriculum Development</a>
+              <a href="#" class="block hover:text-blue-400">Educational Psychology</a>
+            </div>
+          </div>
+
         </div>
+      </div>
+    </div>
+  </main>
 
-        <!-- Messages -->
-        <div class="space-y-4">
-          <div class="message-bubble flex items-start space-x-3">
-            <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center text-blue-300 font-bold">JD</div>
-            <div>
-              <p class="font-bold text-blue-300">Dr. Jane Doe <span class="text-xs text-gray-500">(Neuroscience)</span></p>
-              <p class="text-gray-200">Has anyone explored the implications of the recent study on neural plasticity in adult brains?</p>
-            </div>
-          </div>
+<script>
+  function toggleDropdown(id, button) {
+    const panel = document.getElementById(id);
+    const isOpen = !panel.classList.contains('hidden');
 
-          <div class="message-bubble flex items-start space-x-3">
-            <div class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center text-purple-300 font-bold">MS</div>
-            <div>
-              <p class="font-bold text-purple-300">Mark Smith <span class="text-xs text-gray-500">(AI Researcher)</span></p>
-              <p class="text-gray-200">I'm working on an AI model that could simulate this. Would love to collaborate with neuroscientists to validate the approach.</p>
-            </div>
-          </div>
+    // Close all other open dropdowns (optional)
+    document.querySelectorAll('#topics > div > div:not(.hidden)').forEach(openPanel => {
+      if (openPanel !== panel) {
+        openPanel.classList.add('hidden');
+        const btn = openPanel.previousElementSibling;
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          btn.querySelector('i').classList.remove('rotate-90');
+        }
+      }
+    });
 
-          <div class="message-bubble flex items-start space-x-3">
-            <div class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center text-green-300 font-bold">AR</div>
-            <div>
-             <p class="font-bold text-green-300">Amira Rahman <span class="text-xs text-gray-500">(PhD Candidate)</span></p> 
-<p class="text-gray-200">Our lab has some unpublished data that might be relevant. I'll share in the Neuroplasticity project channel.</p> 
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- New message input -->
-<form class="flex space-x-4" onsubmit="return false;">
-  <input
-    type="text"
-    placeholder="Type your message..."
-    class="flex-grow bg-gray-800 bg-opacity-60 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-  />
-  <button
-    class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:opacity-90 transition"
-    type="submit"
-  >Send</button>
-</form>
-</main>
+    // Toggle the clicked dropdown
+    if (isOpen) {
+      panel.classList.add('hidden');
+      button.setAttribute('aria-expanded', 'false');
+      button.querySelector('i').classList.remove('rotate-90');
+    } else {
+      panel.classList.remove('hidden');
+      button.setAttribute('aria-expanded', 'true');
+      button.querySelector('i').classList.add('rotate-90');
+    }
+  }
+</script>
 </body>
 </html>
-
