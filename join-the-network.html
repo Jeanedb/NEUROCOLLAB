@@ -6,7 +6,7 @@
   <title>Join the Network | NEURO COLLAB</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
@@ -87,7 +87,7 @@
         <div class="bg-gray-900 bg-opacity-80 rounded-xl p-8">
           <h2 class="title-font text-3xl font-bold mb-6 text-white text-center">Join the Network</h2>
           <p class="text-gray-400 text-center mb-8">Collaborate with brilliant minds across the globe. Fill out the form below to become part of the NEURO COLLAB community.</p>
-          <form class="space-y-6" onsubmit="submitForm(event)">
+          <form id="joinForm" class="space-y-6">
             <div>
               <label class="block mb-2 text-sm text-gray-300">Full Name</label>
               <input type="text" id="fullname" placeholder="Jane Doe" class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none text-white" required>
@@ -121,6 +121,8 @@
     </div>
   </section>
 
+  <!-- Firebase Config & Script -->
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
       authDomain: "neuro-collab-b2a0a.firebaseapp.com",
@@ -131,31 +133,34 @@
       measurementId: "G-1EZ4XWRWJ4"
     };
 
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.firestore();
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-  document.getElementById('joinForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
+    document.getElementById('joinForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
       const name = document.getElementById('fullname').value;
       const email = document.getElementById('email').value;
       const field = document.getElementById('field').value;
       const bio = document.getElementById('bio').value;
 
       try {
-        await addDoc(collection(db, "members"), add({
+        await db.collection("members").add({
           name,
           email,
           field,
           bio,
           timestamp: new Date()
         });
+
         alert("Thank you for joining NEURO COLLAB!");
-        e.target.reset();
+        document.getElementById('joinForm').reset();
       } catch (error) {
         console.error("Error submitting form: ", error);
         alert("Submission failed. Please try again.");
       }
-    };
+    });
   </script>
 </body>
 </html>
