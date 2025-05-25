@@ -6,31 +6,26 @@
   <title>Join the Network | NEURO COLLAB</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap');
-
     body {
       font-family: 'Roboto', sans-serif;
       background-color: #0a0a15;
       color: #e0e0e0;
     }
-
     .title-font {
       font-family: 'Orbitron', sans-serif;
     }
-
     .glow-box {
       box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
     }
-
     .gradient-border {
       position: relative;
       border-radius: 0.5rem;
     }
-
     .gradient-border::before {
       content: "";
       position: absolute;
@@ -43,7 +38,6 @@
       z-index: -1;
       opacity: 0.7;
     }
-
     .brain-bg {
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><path d="M400,100 C300,50 200,100 150,200 C100,300 150,400 200,450 C250,500 300,450 350,400 C400,350 450,400 500,450 C550,500 600,450 650,400 C700,350 650,300 600,250 C550,200 500,150 400,100 Z" fill="none" stroke="%230084ff" stroke-width="2" stroke-opacity="0.3"/></svg>');
       background-size: cover;
@@ -125,7 +119,7 @@
     </div>
   </section>
 
-  <!-- Firebase Config & Script -->
+  <!-- Firebase Config & Auth Logic -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
@@ -137,11 +131,10 @@
       measurementId: "G-1EZ4XWRWJ4"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
 
-    // Form submission handler
     document.getElementById('joinForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -152,20 +145,25 @@
       const bio = document.getElementById('bio').value.trim();
 
       try {
-        await db.collection("members").add({
+        // Create user in Firebase Authentication
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Store extra user data in Firestore
+        await db.collection("members").doc(user.uid).set({
+          uid: user.uid,
           name,
           email,
-          password,
           field,
           bio,
-          timestamp: new Date()
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        alert("Thank you for joining NEURO COLLAB!");
+        alert("Account created and added to the network successfully!");
         document.getElementById('joinForm').reset();
       } catch (error) {
-        console.error("Error submitting form: ", error);
-        alert("Submission failed. Please try again.");
+        console.error("Error creating user:", error);
+        alert("Error: " + error.message);
       }
     });
   </script>
