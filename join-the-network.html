@@ -54,7 +54,6 @@
       z-index: -1;
     }
   </style>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body class="min-h-screen">
   <div class="brain-bg"></div>
@@ -108,7 +107,6 @@
               <label class="block mb-2 text-sm text-gray-300">Short Bio</label>
               <textarea id="bio" rows="4" placeholder="Tell us a bit about yourself..." class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none text-white"></textarea>
             </div>
-            <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
             <div class="text-center">
               <button type="submit" class="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:opacity-90 transition glow-box">
                 Join Now
@@ -139,11 +137,6 @@
 
     window.submitForm = async function (e) {
       e.preventDefault();
-      const token = grecaptcha.getResponse();
-      if (!token) {
-        alert("Please complete the CAPTCHA.");
-        return;
-      }
 
       const name = document.getElementById('fullname').value;
       const email = document.getElementById('email').value;
@@ -160,7 +153,6 @@
         });
         alert("Thank you for joining NEURO COLLAB!");
         e.target.reset();
-        grecaptcha.reset();
       } catch (error) {
         console.error("Error submitting form: ", error);
         alert("Submission failed. Please try again.");
