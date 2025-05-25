@@ -137,13 +137,14 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    document.getElementById('joinForm').addEventListener('submit', async function (e) {
+    // Form submission handler
+    document.getElementById('joinForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const name = document.getElementById('fullname').value;
-      const email = document.getElementById('email').value;
+      const name = document.getElementById('fullname').value.trim();
+      const email = document.getElementById('email').value.trim();
       const field = document.getElementById('field').value;
-      const bio = document.getElementById('bio').value;
+      const bio = document.getElementById('bio').value.trim();
 
       try {
         await db.collection("members").add({
