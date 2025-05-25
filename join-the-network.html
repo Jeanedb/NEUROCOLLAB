@@ -118,10 +118,6 @@
     </div>
   </section>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
     const firebaseConfig = {
       apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
       authDomain: "neuro-collab-b2a0a.firebaseapp.com",
@@ -132,22 +128,18 @@
       measurementId: "G-1EZ4XWRWJ4"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
 
-     window.firebaseDB = db;
-</script>
-    
-    window.submitForm = async function (e) {
-      e.preventDefault();
-
+  document.getElementById('joinForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
       const name = document.getElementById('fullname').value;
       const email = document.getElementById('email').value;
       const field = document.getElementById('field').value;
       const bio = document.getElementById('bio').value;
 
       try {
-        await addDoc(collection(db, "members"), {
+        await addDoc(collection(db, "members"), add({
           name,
           email,
           field,
