@@ -111,54 +111,6 @@ const firebaseConfig = {
     };
   </script>
 
-<script type="module">
-  // Import Firebase SDK modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
-  // Firebase config (replace with real values from your Firebase Console)
-  const firebaseConfig = {
-    apiKey: "YOUR-API-KEY",
-    authDomain: "your-project-id.firebaseapp.com",
-    projectId: "your-project-id",
-    appId: "YOUR-APP-ID"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // Sign in function
-  window.signIn = function () {
-    const email = document.getElementById('email').value;
-    const pass = document.getElementById('password').value;
-
-    signInWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert("Signed in as " + user.email);
-        window.location.href = "dashboard.html"; // change if needed
-      })
-      .catch((error) => {
-        alert("Sign-in error: " + error.message);
-      });
-  };
-
-  // Sign up function (optional use for creating new users)
-  window.signUp = function () {
-    const email = document.getElementById('email').value;
-    const pass = document.getElementById('password').value;
-
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
-        alert("Registered successfully as " + userCredential.user.email);
-      })
-      .catch((error) => {
-        alert("Sign-up error: " + error.message);
-      });
-  };
-</script>
-
 
   
 </body>
