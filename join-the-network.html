@@ -97,6 +97,10 @@
               <input type="email" id="email" placeholder="you@example.com" class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none text-white" required>
             </div>
             <div>
+              <label class="block mb-2 text-sm text-gray-300">Password</label>
+              <input type="password" id="password" placeholder="••••••••" class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none text-white" required>
+            </div>
+            <div>
               <label class="block mb-2 text-sm text-gray-300">Field of Interest</label>
               <select id="field" class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none text-white">
                 <option>Neuroscience</option>
@@ -143,6 +147,7 @@
 
       const name = document.getElementById('fullname').value.trim();
       const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
       const field = document.getElementById('field').value;
       const bio = document.getElementById('bio').value.trim();
 
@@ -150,6 +155,7 @@
         await db.collection("members").add({
           name,
           email,
+          password,
           field,
           bio,
           timestamp: new Date()
