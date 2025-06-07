@@ -4,82 +4,101 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Neuro Collab | Dashboard</title>
+
+  <!-- Tailwind & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@400;500;700&display=swap');
     body {
       font-family: 'Roboto', sans-serif;
       background-color: #0a0a15;
       color: #e0e0e0;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .title-font {
-      font-family: 'Orbitron', sans-serif;
-    }
-    .glow-text {
-      text-shadow: 0 0 10px rgba(0, 132, 255, 0.8);
-    }
-    .glow-box {
-      box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
-    }
-    .brain-bg {
-      background-image: url('data:image/svg+xml;utf8,<svg ...>...</svg>');
-      opacity: 0.1; position: fixed; z-index: -1;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-size: cover;
-    }
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    .glow-text { text-shadow: 0 0 8px rgba(0, 132, 255, 0.8); }
+    .glow-box { box-shadow: 0 0 15px rgba(0, 132, 255, 0.5); }
     .gradient-border::before {
       content: ""; position: absolute;
       top: -2px; left: -2px; right: -2px; bottom: -2px;
       background: linear-gradient(45deg, #00f2ff, #0055ff, #8400ff);
       border-radius: 0.6rem; z-index: -1; opacity: 0.7;
     }
+    .brain-bg {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="%230088cc" stroke-width="1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>');
+      opacity: 0.03;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background-repeat: repeat;
+      background-size: 300px;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
 
+<body class="flex flex-col min-h-screen">
   <div class="brain-bg"></div>
 
-  <!-- HEADER -->
-  <header class="flex items-center justify-between px-6 py-4 bg-gray-950 bg-opacity-80 backdrop-blur-md shadow-md">
-    <a href="index.html" class="flex items-center space-x-2 text-blue-400 hover:text-blue-300 title-font text-xl font-bold glow-text">
-      <i class="fas fa-brain text-2xl"></i>
-      <span>Neuro Collab</span>
-    </a>
-    <nav class="space-x-6 text-gray-300 text-sm">
-      <a href="dashboard.html" class="hover:text-blue-400">Dashboard</a>
-      <a href="about.html" class="hover:text-blue-400">About</a>
-      <a href="contact.html" class="hover:text-blue-400">Contact</a>
-      <button onclick="signOutUser()" class="ml-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white text-sm font-semibold">Sign Out</button>
-    </nav>
+  <!-- Header -->
+  <header class="bg-gray-950 bg-opacity-90 text-white py-4 shadow-md border-b border-blue-700">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-brain text-blue-400 text-2xl"></i>
+        <h1 class="text-2xl font-bold title-font text-blue-400 glow-text">NEURO COLLAB</h1>
+      </div>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="dashboard.html" class="hover:text-blue-400">Dashboard</a>
+        <a href="explore-projects.html" class="hover:text-blue-400">Projects</a>
+        <a href="discussions.html" class="hover:text-blue-400">Disccusions</a>
+        <a href="funding.html" class="hover:text-blue-400">Funding</a>
+        <a href="network.html" class="hover:text-blue-400">Network</a>
+      </nav>
+      <button onclick="signOutUser()" class="text-sm font-semibold bg-gradient-to-r from-blue-500 to-blue-700 px-4 py-2 rounded-full hover:opacity-90 transition">
+        Sign Out
+      </button>
+    </div>
   </header>
 
-  <!-- MAIN -->
-  <main class="flex-grow px-6 py-10 space-y-12">
-    <!-- CREATE POST -->
-    <section class="max-w-3xl mx-auto w-full gradient-border p-1 rounded-xl">
-      <div class="bg-gray-900 bg-opacity-80 rounded-xl p-6 backdrop-blur-sm">
-        <h2 class="title-font text-2xl text-blue-400 glow-text mb-4 text-center">Create a Post</h2>
-        <form id="post-form" class="space-y-4" onsubmit="submitPost(); return false;">
-          <input id="post-title" type="text" required placeholder="Post Title" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
-          <textarea id="post-content" required placeholder="What's on your mind?" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500 h-24 resize-none"></textarea>
-          <button type="submit" class="w-full py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold glow-box hover:opacity-90 transition">Post</button>
+  <!-- Main -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-10 space-y-12">
+
+    <!-- Post Form -->
+    <section class="relative gradient-border rounded-xl p-1">
+      <div class="bg-gray-900 bg-opacity-80 rounded-xl p-6 shadow-md backdrop-blur-sm">
+        <h2 class="text-xl font-semibold title-font text-blue-400 glow-text mb-4">Create a Post</h2>
+        <form id="post-form" class="space-y-4">
+          <textarea id="post-content" placeholder="What's on your mind?" required class="w-full px-6 py-2 rounded bg-gray-800 text-white placeholder-gray-500 resize-none h-32"></textarea>
+          <button type="submit" class="w-full py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:opacity-90 transition">
+            Post
+          </button>
         </form>
       </div>
     </section>
 
-    <!-- FEED -->
-    <section class="max-w-3xl mx-auto w-full space-y-4" id="posts-container">
-      <!-- Posts will load here -->
+    <!-- Community Feed -->
+    <section>
+      <h2 class="title-font text-2xl text-blue-400 glow-text mb-6">Community Feed</h2>
+      <div id="community-feed" class="space-y-6">
+        <!-- Posts will be injected here -->
+      </div>
     </section>
   </main>
 
-  <!-- Firebase SDK + Auth/Firestore Logic -->
+  <!-- Firebase SDK & Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
@@ -95,61 +114,61 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Redirect if not signed in
+    // Auth check
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "sign-in.html";
-      }
+      if (!user) window.location.href = "sign-in.html";
     });
 
     window.signOutUser = function () {
       signOut(auth).then(() => {
+        alert("Signed out.");
         window.location.href = "sign-in.html";
       }).catch((error) => {
         alert("Error signing out: " + error.message);
       });
     };
 
-    // Submit post
-    window.submitPost = async function () {
+    // Post submission
+    const postForm = document.getElementById("post-form");
+    postForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
       const user = auth.currentUser;
-      const title = document.getElementById("post-title").value.trim();
+      const username = user.displayName || user.email || user.uid;
       const content = document.getElementById("post-content").value.trim();
-      const username = user.displayName || user.email || "Anonymous";
-
-      if (!title || !content) return;
-
-      try {
+      if (username && content) {
         await addDoc(collection(db, "posts"), {
-          title,
-          content,
           username,
-          createdAt: serverTimestamp()
+          content,
+          timestamp: serverTimestamp()
         });
-
-        document.getElementById("post-form").reset();
-      } catch (error) {
-        alert("Error creating post: " + error.message);
+        postForm.reset();
       }
-    };
+    });
 
-    // Load posts
-    const postsContainer = document.getElementById("posts-container");
+    // Real-time feed
+    const feedContainer = document.getElementById("community-feed");
+    const postsQuery = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 
-    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-
-    onSnapshot(q, (snapshot) => {
-      postsContainer.innerHTML = "";
+    onSnapshot(postsQuery, (snapshot) => {
+      feedContainer.innerHTML = "";
       snapshot.forEach((doc) => {
         const post = doc.data();
-        const postEl = document.createElement("div");
-        postEl.className = "bg-gray-800 bg-opacity-90 p-5 rounded-xl shadow-md space-y-2";
-        postEl.innerHTML = `
-          <h3 class="text-xl font-semibold text-blue-400 title-font">${post.title}</h3>
-          <p class="text-gray-300 text-sm">${post.content}</p>
-          <div class="text-gray-500 text-xs text-right">Posted by ${post.username}</div>
+        const time = post.timestamp?.seconds
+          ? new Date(post.timestamp.seconds * 1000).toLocaleString()
+          : "Just now";
+        const postHTML = `
+          <div class="bg-gray-800 bg-opacity-70 rounded-xl p-6 shadow-md glow-box">
+            <div class="flex items-center mb-4">
+              <img src="https://i.pravatar.cc/40?u=${post.username}" class="w-10 h-10 rounded-full mr-3" alt="avatar">
+              <div>
+                <p class="font-semibold text-gray-100">${post.username}</p>
+                <p class="text-sm text-gray-400">${time}</p>
+              </div>
+            </div>
+            <p class="text-gray-300 whitespace-pre-line">${post.content}</p>
+          </div>
         `;
-        postsContainer.appendChild(postEl);
+        feedContainer.innerHTML += postHTML;
       });
     });
   </script>
