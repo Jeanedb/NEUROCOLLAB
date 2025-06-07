@@ -59,20 +59,20 @@
         <a href="#" class="text-gray-400 hover:text-blue-100 font-medium">Network</a>
       </nav>
       <div class="flex items-center space-x-4">
-        <button class="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:opacity-90 transition">Sign In</button>
+        <button onclick="signOutUser()" class="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium hover:opacity-90 transition">Sign Out</button>
         <button class="md:hidden text-gray-400 hover:text-white"><i class="fas fa-bars text-xl"></i></button>
       </div>
     </div>
   </header>
 
   <main class="container mx-auto px-4 py-12 max-w-5xl">
-    <!-- Section header like Discussions page -->
+    <!-- Section header -->
     <div class="border-b border-gray-700 pb-4 mb-6">
       <h2 class="text-3xl font-bold text-blue-300 tracking-tight">Live Feed</h2>
     </div>
 
-    <!-- Create a post form (wider and shorter) -->
-    <form id="postForm" class="bg-gray-800 border border-gray-700 rounded-xl p-4 mb-6">
+    <!-- Create a post form -->
+    <form id="postForm" class="bg-gray-800 border border-gray-700 rounded-xl p-4 mb-6" onsubmit="submitPost(); return false;">
       <label for="postContent" class="block text-sm text-gray-300 mb-2">Create a post:</label>
       <textarea
         id="postContent"
@@ -92,25 +92,79 @@
     </div>
   </main>
 
-  <script>
-    const postForm = document.getElementById("postForm");
-    const postContent = document.getElementById("postContent");
-    const feed = document.getElementById("feed");
+  <!-- Firebase SDK & Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-    postForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const content = postContent.value.trim();
+    const firebaseConfig = {
+      apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
+      authDomain: "neuro-collab-b2a0a.firebaseapp.com",
+      projectId: "neuro-collab-b2a0a",
+      storageBucket: "neuro-collab-b2a0a.appspot.com",
+      messagingSenderId: "831115712647",
+      appId: "1:831115712647:web:2c442ffc67ce7ed789c022",
+      measurementId: "G-1EZ4XWRWJ4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Redirect if not signed in
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "sign-in.html";
+      }
+    });
+
+    window.signOutUser = function () {
+      signOut(auth).then(() => {
+        window.location.href = "sign-in.html";
+      }).catch((error) => {
+        alert("Error signing out: " + error.message);
+      });
+    };
+
+    // Submit post
+    window.submitPost = async function () {
+      const user = auth.currentUser;
+      const content = document.getElementById("postContent").value.trim();
+      const username = user.displayName || user.email || "Anonymous";
+
       if (!content) return;
 
-      const postElement = document.createElement("div");
-      postElement.className = "bg-gray-900 p-4 border border-gray-700 rounded-xl";
-      postElement.innerHTML = `
-        <p class="text-gray-300">${content}</p>
-        <p class="text-sm text-gray-500 mt-2">Just now</p>
-      `;
-      feed.prepend(postElement);
+      try {
+        await addDoc(collection(db, "posts"), {
+          title: "Untitled", // Optional: could remove if you want to support titles later
+          content,
+          username,
+          createdAt: serverTimestamp()
+        });
 
-      postContent.value = "";
+        document.getElementById("postForm").reset();
+      } catch (error) {
+        alert("Error creating post: " + error.message);
+      }
+    };
+
+    // Load posts
+    const feed = document.getElementById("feed");
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+      feed.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const post = doc.data();
+        const postEl = document.createElement("div");
+        postEl.className = "bg-gray-900 p-4 border border-gray-700 rounded-xl";
+        postEl.innerHTML = `
+          <p class="text-gray-300">${post.content}</p>
+          <p class="text-sm text-gray-500 mt-2">Posted by ${post.username || "Unknown"}</p>
+        `;
+        feed.appendChild(postEl);
+      });
     });
   </script>
 </body>
