@@ -9,61 +9,84 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@400;500;700&display=swap');
     body {
       font-family: 'Roboto', sans-serif;
       background-color: #0a0a15;
       color: #e0e0e0;
       min-height: 100vh;
+      overflow-x: hidden;
     }
-    .title-font {
-      font-family: 'Orbitron', sans-serif;
+    .title-font { font-family: 'Orbitron', sans-serif; }
+    .glow-text { text-shadow: 0 0 8px rgba(0, 132, 255, 0.8); }
+    .glow-box { box-shadow: 0 0 15px rgba(0, 132, 255, 0.5); }
+    .gradient-border::before {
+      content: ""; position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(45deg, #00f2ff, #0055ff, #8400ff);
+      border-radius: 0.6rem; z-index: -1; opacity: 0.7;
     }
-    .glow-text {
-      text-shadow: 0 0 10px rgba(0, 132, 255, 0.8);
-    }
-    .glow-box {
-      box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
+    .brain-bg {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="%230088cc" stroke-width="1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>');
+      opacity: 0.03;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background-repeat: repeat;
+      background-size: 300px;
     }
   </style>
 </head>
+
 <body class="flex flex-col min-h-screen">
+  <div class="brain-bg"></div>
 
   <!-- Header -->
   <header class="bg-gray-950 bg-opacity-90 text-white py-4 shadow-md border-b border-blue-700">
     <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-      <h1 class="text-2xl font-bold title-font text-blue-400 glow-text">NEURO COLLAB</h1>
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-brain text-blue-400 text-2xl"></i>
+        <h1 class="text-2xl font-bold title-font text-blue-400 glow-text">NEURO COLLAB</h1>
+      </div>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="dashboard.html" class="hover:text-blue-400">Dashboard</a>
+        <a href="#" class="hover:text-blue-400">Network</a>
+        <a href="#" class="hover:text-blue-400">Resources</a>
+        <a href="#" class="hover:text-blue-400">Messages</a>
+      </nav>
       <button onclick="signOutUser()" class="text-sm font-semibold bg-gradient-to-r from-blue-500 to-blue-700 px-4 py-2 rounded-full hover:opacity-90 transition">
         Sign Out
       </button>
     </div>
   </header>
 
-  <!-- Main Section -->
-  <main class="flex-grow max-w-4xl mx-auto px-4 py-10 space-y-10">
+  <!-- Main -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-10 space-y-12">
 
     <!-- Post Form -->
-    <section class="bg-gray-900 bg-opacity-80 rounded-xl p-6 shadow-md glow-box">
-      <h2 class="text-xl font-semibold title-font text-blue-400 glow-text mb-4">Create a Post</h2>
-      <form id="post-form" class="space-y-4">
-        <input type="text" id="post-username" placeholder="Your name" required class="w-full px-4 py-2 rounded bg-gray-800 text-white placeholder-gray-500" />
-        <textarea id="post-content" placeholder="What's on your mind?" required class="w-full px-4 py-3 rounded bg-gray-800 text-white placeholder-gray-500 resize-none h-32"></textarea>
-        <button type="submit" class="w-full py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:opacity-90 transition">
-          Post
-        </button>
-      </form>
+    <section class="relative gradient-border rounded-xl p-1">
+      <div class="bg-gray-900 bg-opacity-80 rounded-xl p-6 shadow-md backdrop-blur-sm">
+        <h2 class="text-xl font-semibold title-font text-blue-400 glow-text mb-4">Create a Post</h2>
+        <form id="post-form" class="space-y-4">
+          <input type="text" id="post-username" placeholder="Your name" required class="w-full px-4 py-2 rounded bg-gray-800 text-white placeholder-gray-500" />
+          <textarea id="post-content" placeholder="What's on your mind?" required class="w-full px-4 py-3 rounded bg-gray-800 text-white placeholder-gray-500 resize-none h-32"></textarea>
+          <button type="submit" class="w-full py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:opacity-90 transition">
+            Post
+          </button>
+        </form>
+      </div>
     </section>
 
     <!-- Community Feed -->
     <section>
       <h2 class="title-font text-2xl text-blue-400 glow-text mb-6">Community Feed</h2>
       <div id="community-feed" class="space-y-6">
-        <!-- Posts injected here -->
+        <!-- Posts will be injected here -->
       </div>
     </section>
   </main>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDK & Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
@@ -91,12 +114,11 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Redirect if not authenticated
+    // Auth check
     onAuthStateChanged(auth, (user) => {
       if (!user) window.location.href = "sign-in.html";
     });
 
-    // Sign Out Logic
     window.signOutUser = function () {
       signOut(auth).then(() => {
         alert("Signed out.");
@@ -106,49 +128,47 @@
       });
     };
 
-    // Real-Time Feed
-    const postsRef = collection(db, "posts");
-    const feedContainer = document.getElementById("community-feed");
-    const q = query(postsRef, orderBy("timestamp", "desc"));
+    // Post submission
+    const postForm = document.getElementById("post-form");
+    postForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("post-username").value.trim();
+      const content = document.getElementById("post-content").value.trim();
+      if (username && content) {
+        await addDoc(collection(db, "posts"), {
+          username,
+          content,
+          timestamp: serverTimestamp()
+        });
+        postForm.reset();
+      }
+    });
 
-    onSnapshot(q, (snapshot) => {
+    // Real-time feed
+    const feedContainer = document.getElementById("community-feed");
+    const postsQuery = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+
+    onSnapshot(postsQuery, (snapshot) => {
       feedContainer.innerHTML = "";
       snapshot.forEach((doc) => {
         const post = doc.data();
         const time = post.timestamp?.seconds
           ? new Date(post.timestamp.seconds * 1000).toLocaleString()
           : "Just now";
-
         const postHTML = `
           <div class="bg-gray-800 bg-opacity-70 rounded-xl p-6 shadow-md glow-box">
             <div class="flex items-center mb-4">
-              <img src="${post.avatar || 'https://i.pravatar.cc/40'}" class="w-10 h-10 rounded-full mr-3" alt="avatar">
+              <img src="https://i.pravatar.cc/40?u=${post.username}" class="w-10 h-10 rounded-full mr-3" alt="avatar">
               <div>
-                <p class="font-semibold text-gray-100">${post.username || "Anonymous"}</p>
+                <p class="font-semibold text-gray-100">${post.username}</p>
                 <p class="text-sm text-gray-400">${time}</p>
               </div>
             </div>
-            <p class="text-gray-300">${post.content}</p>
+            <p class="text-gray-300 whitespace-pre-line">${post.content}</p>
           </div>
         `;
         feedContainer.innerHTML += postHTML;
       });
-    });
-
-    // Post Submission
-    document.getElementById("post-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const username = document.getElementById("post-username").value.trim();
-      const content = document.getElementById("post-content").value.trim();
-
-      if (username && content) {
-        await addDoc(postsRef, {
-          username,
-          content,
-          timestamp: serverTimestamp()
-        });
-        document.getElementById("post-form").reset();
-      }
     });
   </script>
 </body>
