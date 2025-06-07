@@ -100,6 +100,10 @@
       <!-- Community Feed -->
 <section class="max-w-4xl mx-auto mt-16">
   <h2 class="title-font text-3xl text-blue-400 glow-text mb-6">Community Feed</h2>
+  <div id="community-feed">
+    <!-- Posts will be injected here by JS -->
+  </div>
+</section>
 
   <!-- Post Card -->
   <div class="bg-gray-800 bg-opacity-70 rounded-xl p-6 mb-6 shadow-lg glow-box">
@@ -160,37 +164,69 @@
 
   <!-- Firebase Auth Logic -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
-      authDomain: "neuro-collab-b2a0a.firebaseapp.com",
-      projectId: "neuro-collab-b2a0a",
-      storageBucket: "neuro-collab-b2a0a.appspot.com",
-      messagingSenderId: "831115712647",
-      appId: "1:831115712647:web:2c442ffc67ce7ed789c022",
-      measurementId: "G-1EZ4XWRWJ4"
-    };
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
+  authDomain: "neuro-collab-b2a0a.firebaseapp.com",
+  projectId: "neuro-collab-b2a0a",
+  storageBucket: "neuro-collab-b2a0a.firebasestorage.app",
+  messagingSenderId: "831115712647",
+  appId: "1:831115712647:web:2c442ffc67ce7ed789c022",
+  measurementId: "G-1EZ4XWRWJ4"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    // Redirect to sign-in if no user is authenticated
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "sign-in.html";
-      }
-    });
+// Redirect if not logged in
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "sign-in.html";
+  }
+});
 
-    window.signOutUser = function () {
-      signOut(auth).then(() => {
-        alert("Signed out.");
-        window.location.href = "sign-in.html";
-      }).catch((error) => {
-        alert("Error signing out: " + error.message);
-      });
-    };
-  </script>
-</body>
-</html>
+// Sign out logic
+window.signOutUser = function () {
+  signOut(auth).then(() => {
+    alert("Signed out.");
+    window.location.href = "sign-in.html";
+  }).catch((error) => {
+    alert("Error signing out: " + error.message);
+  });
+};
+
+// 🧠 Load posts from Firestore in real-time
+const postsRef = collection(db, "posts");
+const q = query(postsRef, orderBy("timestamp", "desc"));
+
+onSnapshot(q, (snapshot) => {
+  const feed = document.getElementById("community-feed");
+  feed.innerHTML = ""; // Clear previous posts
+
+  snapshot.forEach((doc) => {
+    const post = doc.data();
+    const postHTML = `
+      <div class="bg-gray-800 bg-opacity-70 rounded-xl p-6 mb-6 shadow-lg glow-box">
+        <div class="flex items-center mb-4">
+          <img src="${post.avatar}" class="w-10 h-10 rounded-full mr-3" alt="User Avatar">
+          <div>
+            <p class="font-semibold text-gray-100">${post.username}</p>
+            <p class="text-sm text-gray-400">${new Date(post.timestamp?.seconds * 1000).toLocaleString()}</p>
+          </div>
+        </div>
+        <p class="text-gray-300 mb-4">${post.content}</p>
+        <div class="flex space-x-6 text-gray-400 text-sm">
+          <button class="hover:text-blue-400"><i class="fas fa-thumbs-up mr-1"></i>Like</button>
+          <button class="hover:text-blue-400"><i class="fas fa-comment mr-1"></i>Comment</button>
+          <button class="hover:text-blue-400"><i class="fas fa-share mr-1"></i>Share</button>
+        </div>
+      </div>
+    `;
+    feed.innerHTML += postHTML;
+  });
+});
