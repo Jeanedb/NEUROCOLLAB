@@ -140,6 +140,7 @@
           title: "Untitled", // Optional: could remove if you want to support titles later
           content,
           username,
+          photoURL: user.photoURL || null,
           createdAt: serverTimestamp()
         });
 
@@ -160,6 +161,13 @@
         const postEl = document.createElement("div");
         postEl.className = "bg-gray-900 p-4 border border-gray-700 rounded-xl";
         postEl.innerHTML = `
+
+<div class="flex items-start space-x-4">
+    <img src="${post.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(post.username)}"
+         alt="Avatar"
+         class="w-10 h-10 rounded-full object-cover border border-gray-700" />
+    <div>
+        
           <p class="text-gray-300">${post.content}</p>
           <p class="text-sm text-gray-500 mt-2">Posted by ${post.username || "Unknown"}</p>
         `;
