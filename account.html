@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neuro Collab | Account Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0a0a15;
+      color: #e0e0e0;
+    }
+    .title-font {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .glow-text {
+      text-shadow: 0 0 10px rgba(0, 132, 255, 0.8);
+    }
+    .glow-box {
+      box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
+    }
+    .brain-bg {
+      background-image: url('data:image/svg+xml;utf8,<svg ...>...</svg>');
+      opacity: 0.1; position: fixed; z-index: -1;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-size: cover;
+    }
+    .gradient-border::before {
+      content: ""; position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(45deg, #00f2ff, #0055ff, #8400ff);
+      border-radius: 0.6rem; z-index: -1; opacity: 0.7;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <div class="brain-bg"></div>
+
+  <!-- HEADER -->
+  <header class="flex items-center justify-between px-6 py-4 bg-gray-950 bg-opacity-80 backdrop-blur-md shadow-md">
+    <a href="index.html" class="flex items-center space-x-2 text-blue-400 hover:text-blue-300 title-font text-xl font-bold glow-text">
+      <i class="fas fa-brain text-2xl"></i>
+      <span>Neuro Collab</span>
+    </a>
+    <nav class="space-x-6 text-gray-300 text-sm">
+      <a href="dashboard.html" class="hover:text-blue-400">Dashboard</a>
+      <a href="discussions.html" class="hover:text-blue-400">Discussions</a>
+      <a href="account.html" class="hover:text-blue-400 font-semibold underline">Account</a>
+      <a href="about.html" class="hover:text-blue-400">About</a>
+      <a href="contact.html" class="hover:text-blue-400">Contact</a>
+      <button onclick="signOutUser()" class="ml-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white text-sm font-semibold">Sign Out</button>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-grow px-6 py-10 max-w-3xl mx-auto space-y-12">
+    <section class="max-w-3xl mx-auto w-full gradient-border p-1 rounded-xl relative">
+      <div class="bg-gray-900 bg-opacity-80 rounded-xl p-6 backdrop-blur-sm space-y-6">
+        <h1 class="title-font text-3xl text-blue-400 glow-text mb-4 text-center">Account Settings</h1>
+        <div class="flex flex-col items-center space-y-4">
+          <img id="avatar-preview" src="" alt="Avatar Preview" class="w-24 h-24 rounded-full border-4 border-blue-400 object-cover" />
+          <p class="text-gray-400 text-sm">Your current avatar</p>
+        </div>
+
+        <form id="account-form" class="space-y-4" onsubmit="updateProfile(); return false;">
+          <input id="displayName" type="text" required placeholder="Enter your display name" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
+          <input id="photoURL" type="url" placeholder="Enter avatar image URL" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
+          <button type="submit" class="w-full py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold glow-box hover:opacity-90 transition">Save Changes</button>
+        </form>
+        <p id="message" class="text-center text-sm mt-2"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Firebase SDK + Auth -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
+      authDomain: "neuro-collab-b2a0a.firebaseapp.com",
+      projectId: "neuro-collab-b2a0a",
+      storageBucket: "neuro-collab-b2a0a.firebasestorage.app",
+      messagingSenderId: "831115712647",
+      appId: "1:831115712647:web:2c442ffc67ce7ed789c022",
+      measurementId: "G-1EZ4XWRWJ4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const displayNameInput = document.getElementById('displayName');
+    const photoURLInput = document.getElementById('photoURL');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const messageEl = document.getElementById('message');
+
+    // Redirect if not logged in, else load profile info
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = 'sign-in.html';
+      } else {
+        displayNameInput.value = user.displayName || "";
+        photoURLInput.value = user.photoURL || "";
+        avatarPreview.src = user.photoURL || "https://via.placeholder.com/150?text=No+Avatar";
+      }
+    });
+
+    window.updateProfile = async () => {
+      messageEl.textContent = "";
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const newDisplayName = displayNameInput.value.trim();
+      const newPhotoURL = photoURLInput.value.trim();
+
+      if (!newDisplayName) {
+        messageEl.textContent = "Display name cannot be empty.";
+        messageEl.className = "text-red-500 text-center mt-2";
+        return;
+      }
+
+      try {
+        await updateProfile(user, {
+          displayName: newDisplayName,
+          photoURL: newPhotoURL || null
+        });
+        avatarPreview.src = newPhotoURL || "https://via.placeholder.com/150?text=No+Avatar";
+        messageEl.textContent = "Profile updated successfully!";
+        messageEl.className = "text-green-400 text-center mt-2";
+      } catch (error) {
+        messageEl.textContent = "Error updating profile: " + error.message;
+        messageEl.className = "text-red-500 text-center mt-2";
+      }
+    };
+
+    window.signOutUser = () => {
+      signOut(auth).then(() => {
+        window.location.href = "sign-in.html";
+      }).catch((error) => {
+        alert("Error signing out: " + error.message);
+      });
+    };
+  </script>
+</body>
+</html>
