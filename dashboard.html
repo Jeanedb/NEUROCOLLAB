@@ -80,6 +80,21 @@
       </div>
     </section>
 
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold text-blue-300 mb-2">Your Projects</h3>
+        <ul id="userProjects" class="list-disc list-inside text-gray-300 space-y-1">
+          <!-- Projects will be loaded here -->
+        </ul>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold text-blue-300 mb-2">Your Contacts</h3>
+        <ul id="userContacts" class="list-none space-y-2">
+          <!-- Contacts will be loaded here -->
+        </ul>
+      </div>
+    </section>
+
     <section class="mb-12">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-2xl font-bold text-blue-300">Quick Actions</h3>
@@ -112,7 +127,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, where, getCountFromServer } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, where, getCountFromServer, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
@@ -126,6 +141,8 @@
 
     const welcome = document.getElementById('welcome');
     const postsCount = document.getElementById('postsCount');
+    const userProjectsEl = document.getElementById('userProjects');
+    const userContactsEl = document.getElementById('userContacts');
 
     onAuthStateChanged(auth, async user => {
       if (user) {
@@ -134,6 +151,28 @@
         const postsQuery = query(collection(db, 'posts'), where('userId', '==', user.uid));
         const snapshot = await getCountFromServer(postsQuery);
         postsCount.textContent = snapshot.data().count;
+
+        const projectsSnapshot = await getDocs(query(collection(db, 'projectsJoined'), where('userId', '==', user.uid)));
+        userProjectsEl.innerHTML = '';
+        projectsSnapshot.forEach(doc => {
+          const project = doc.data();
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="#" class="text-blue-400 hover:underline">${project.projectName}</a>`;
+          userProjectsEl.appendChild(li);
+        });
+
+        const contactsSnapshot = await getDocs(query(collection(db, 'contacts'), where('userId', '==', user.uid)));
+        userContactsEl.innerHTML = '';
+        contactsSnapshot.forEach(doc => {
+          const contact = doc.data();
+          const li = document.createElement('li');
+          li.className = 'flex items-center space-x-2';
+          li.innerHTML = `
+            <div class="w-8 h-8 rounded-full" style="background-color: ${contact.color || '#4B5563'}"></div>
+            <span class="text-gray-300">${contact.name}</span>
+          `;
+          userContactsEl.appendChild(li);
+        });
       }
     });
 
