@@ -43,7 +43,7 @@
 
   <!-- HEADER -->
   <header class="flex items-center justify-between px-6 py-4 bg-gray-950 bg-opacity-80 backdrop-blur-md shadow-md">
-    <a href="index.html" class="flex items-center space-x-2 text-blue-400 hover:text-blue-300 title-font text-xl font-bold glow-text">
+    <a href="dashboard.html" class="flex items-center space-x-2 text-blue-400 hover:text-blue-300 title-font text-xl font-bold glow-text">
       <i class="fas fa-brain text-2xl"></i>
       <span>Neuro Collab</span>
     </a>
@@ -64,6 +64,7 @@
         <h1 class="title-font text-3xl text-blue-400 glow-text mb-4 text-center">Account Settings</h1>
         <div class="flex flex-col items-center space-y-4">
           <img id="avatar-preview" src="" alt="Avatar Preview" class="w-24 h-24 rounded-full border-4 border-blue-400 object-cover" />
+          <input type="file" id="avatarUpload" accept="image/*" class="text-sm text-gray-300" />
           <p class="text-gray-400 text-sm">Your current avatar</p>
         </div>
 
@@ -103,10 +104,23 @@
     const displayNameInput = document.getElementById('displayName');
     const photoURLInput = document.getElementById('photoURL');
     const avatarPreview = document.getElementById('avatar-preview');
+    const avatarUpload = document.getElementById('avatarUpload');
     const messageEl = document.getElementById('message');
     const bioInput = document.getElementById('bio');
     const locationInput = document.getElementById('location');
     const skillsInput = document.getElementById('skills');
+
+    avatarUpload.addEventListener('change', () => {
+      const file = avatarUpload.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          photoURLInput.value = e.target.result;
+          avatarPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
     onAuthStateChanged(auth, async user => {
       if (!user) return (window.location.href = 'sign-in.html');
@@ -135,22 +149,4 @@
         });
         await setDoc(doc(db, 'profiles', user.uid), {
           bio: bioInput.value.trim(),
-          location: locationInput.value.trim(),
-          skills: skillsInput.value.trim()
-        });
-        avatarPreview.src = photoURLInput.value.trim() || "https://via.placeholder.com/150?text=No+Avatar";
-        messageEl.textContent = "Profile updated successfully!";
-        messageEl.className = "text-green-400 text-center mt-2";
-      } catch (error) {
-        messageEl.textContent = "Error: " + error.message;
-        messageEl.className = "text-red-500 text-center mt-2";
-      }
-    };
-
-    window.signOutUser = () => {
-      signOut(auth).then(() => window.location.href = "sign-in.html")
-        .catch(error => alert("Error signing out: " + error.message));
-    };
-  </script>
-</body>
-</html>
+          location: locationInput.value.trim
