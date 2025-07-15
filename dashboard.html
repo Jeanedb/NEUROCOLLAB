@@ -57,14 +57,14 @@
 
   <main class="container mx-auto px-4 py-12 max-w-5xl">
     <section class="mb-8">
-      <h2 class="text-3xl font-bold text-blue-300 tracking-tight mb-2">Welcome back, [User Name]</h2>
+      <h2 class="text-3xl font-bold text-blue-300 tracking-tight mb-2" id="welcome">Welcome back</h2>
       <p class="text-gray-400">Here's a quick look at your activity and what's happening in the community.</p>
     </section>
 
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
       <div class="bg-gray-800 p-4 rounded-lg shadow-md text-center">
         <p class="text-sm text-gray-400">Posts Made</p>
-        <p class="text-2xl font-bold text-blue-400">12</p>
+        <p class="text-2xl font-bold text-blue-400" id="postsCount">-</p>
       </div>
       <div class="bg-gray-800 p-4 rounded-lg shadow-md text-center">
         <p class="text-sm text-gray-400">Projects Joined</p>
@@ -112,7 +112,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, where, getCountFromServer } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
@@ -124,15 +124,28 @@
     const auth = getAuth();
     const db = getFirestore(app);
 
+    const welcome = document.getElementById('welcome');
+    const postsCount = document.getElementById('postsCount');
+
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        welcome.textContent = `Welcome back, ${user.displayName || 'Neuro Member'}`;
+
+        const postsQuery = query(collection(db, 'posts'), where('userId', '==', user.uid));
+        const snapshot = await getCountFromServer(postsQuery);
+        postsCount.textContent = snapshot.data().count;
+      }
+    });
+
     const feed = document.getElementById('feed');
-    const postForm = document.getElementById('postForm');
     const postContent = document.getElementById('postContent');
 
     function submitPost() {
       const content = postContent.value;
-      if (!content) return;
+      if (!content || !auth.currentUser) return;
       addDoc(collection(db, 'posts'), {
         content,
+        userId: auth.currentUser.uid,
         timestamp: serverTimestamp(),
       });
       postContent.value = '';
