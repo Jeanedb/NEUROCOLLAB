@@ -24,7 +24,7 @@
       box-shadow: 0 0 15px rgba(0, 132, 255, 0.5);
     }
     .brain-bg {
-      background-image: url('data:image/svg+xml;utf8,<svg ...>...</svg>');
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><path d="M400,100 C300,50 200,100 150,200 C100,300 150,400 200,450 C250,500 300,450 350,400 C400,350 450,400 500,450 C550,500 600,450 650,400 C700,350 650,300 600,250 C550,200 500,150 400,100 Z" fill="none" stroke="%230084ff" stroke-width="2" stroke-opacity="0.3"/></svg>');
       opacity: 0.1; position: fixed; z-index: -1;
       top: 0; left: 0; right: 0; bottom: 0;
       background-size: cover;
@@ -70,6 +70,9 @@
         <form id="account-form" class="space-y-4" onsubmit="updateProfile(); return false;">
           <input id="displayName" type="text" required placeholder="Enter your display name" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
           <input id="photoURL" type="url" placeholder="Enter avatar image URL" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
+          <textarea id="bio" placeholder="Write your bio..." class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" rows="3"></textarea>
+          <input id="location" type="text" placeholder="Your location" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
+          <input id="skills" type="text" placeholder="Skills (e.g. JavaScript, UX Design)" class="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 placeholder-gray-500" />
           <button type="submit" class="w-full py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold glow-box hover:opacity-90 transition">Save Changes</button>
         </form>
         <p id="message" class="text-center text-sm mt-2"></p>
@@ -81,70 +84,68 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAUkPwigxNyN1Txi7CZ32kcpIC7Xh2SATg",
-      authDomain: "neuro-collab-b2a0a.firebaseapp.com",
-      projectId: "neuro-collab-b2a0a",
-      storageBucket: "neuro-collab-b2a0a.firebasestorage.app",
-      messagingSenderId: "831115712647",
-      appId: "1:831115712647:web:2c442ffc67ce7ed789c022",
-      measurementId: "G-1EZ4XWRWJ4"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
     const displayNameInput = document.getElementById('displayName');
     const photoURLInput = document.getElementById('photoURL');
     const avatarPreview = document.getElementById('avatar-preview');
     const messageEl = document.getElementById('message');
+    const bioInput = document.getElementById('bio');
+    const locationInput = document.getElementById('location');
+    const skillsInput = document.getElementById('skills');
 
-    // Redirect if not logged in, else load profile info
-    onAuthStateChanged(auth, user => {
-      if (!user) {
-        window.location.href = 'sign-in.html';
-      } else {
-        displayNameInput.value = user.displayName || "";
-        photoURLInput.value = user.photoURL || "";
-        avatarPreview.src = user.photoURL || "https://via.placeholder.com/150?text=No+Avatar";
+    onAuthStateChanged(auth, async user => {
+      if (!user) return (window.location.href = 'sign-in.html');
+      displayNameInput.value = user.displayName || "";
+      photoURLInput.value = user.photoURL || "";
+      avatarPreview.src = user.photoURL || "https://via.placeholder.com/150?text=No+Avatar";
+
+      const profileRef = doc(db, 'profiles', user.uid);
+      const snap = await getDoc(profileRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        bioInput.value = data.bio || "";
+        locationInput.value = data.location || "";
+        skillsInput.value = data.skills || "";
       }
     });
 
     window.updateProfile = async () => {
-      messageEl.textContent = "";
       const user = auth.currentUser;
       if (!user) return;
 
-      const newDisplayName = displayNameInput.value.trim();
-      const newPhotoURL = photoURLInput.value.trim();
-
-      if (!newDisplayName) {
-        messageEl.textContent = "Display name cannot be empty.";
-        messageEl.className = "text-red-500 text-center mt-2";
-        return;
-      }
-
       try {
         await updateProfile(user, {
-          displayName: newDisplayName,
-          photoURL: newPhotoURL || null
+          displayName: displayNameInput.value.trim(),
+          photoURL: photoURLInput.value.trim() || null
         });
-        avatarPreview.src = newPhotoURL || "https://via.placeholder.com/150?text=No+Avatar";
+        await setDoc(doc(db, 'profiles', user.uid), {
+          bio: bioInput.value.trim(),
+          location: locationInput.value.trim(),
+          skills: skillsInput.value.trim()
+        });
+        avatarPreview.src = photoURLInput.value.trim() || "https://via.placeholder.com/150?text=No+Avatar";
         messageEl.textContent = "Profile updated successfully!";
         messageEl.className = "text-green-400 text-center mt-2";
       } catch (error) {
-        messageEl.textContent = "Error updating profile: " + error.message;
+        messageEl.textContent = "Error: " + error.message;
         messageEl.className = "text-red-500 text-center mt-2";
       }
     };
 
     window.signOutUser = () => {
-      signOut(auth).then(() => {
-        window.location.href = "sign-in.html";
-      }).catch((error) => {
-        alert("Error signing out: " + error.message);
-      });
+      signOut(auth).then(() => window.location.href = "sign-in.html")
+        .catch(error => alert("Error signing out: " + error.message));
     };
   </script>
 </body>
